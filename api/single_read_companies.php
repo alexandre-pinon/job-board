@@ -4,7 +4,7 @@
 
 
     include_once '../config/database.php';
-    include_once '../advertisements.php';
+    include_once '../companies.php';
 
     $database = new Database();
     $db = $database->getConnection();
@@ -15,7 +15,7 @@
   
     $item->getSingleCompany();
 
-    if($item->title != null){
+    if($item->name != null){
         // create array
         $emp_arr = array(
             "id" =>  $item->id,
