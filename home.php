@@ -23,8 +23,8 @@
             mysqli_set_charset($conn, "utf8");
 
             $sql = "SELECT a.id, title, description, contract_type, localisation, c.logo, c.background
-                    FROM advertisement a
-                    JOIN company c ON c.id = a.company_id";
+                    FROM advertisement AS a
+                    JOIN company AS c ON c.id = a.company_id";
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
@@ -43,7 +43,7 @@
                                 <p class=""><?php echo $row["description"]; ?></p>
                             </div>
                             <div class="card-action center">
-                                <a class="modal-trigger" href="#apply_form">Apply now !</a>
+                                <a id="<?php echo $row["id"]; ?>" class="modal-trigger" href="#apply_modal">Apply now !</a>
                             </div>
                             <div class="card-reveal grey lighten-3 grey-text text-darken-3">
                                 <span class="card-title close-reveal">
@@ -65,63 +65,63 @@
             }
             $conn->close();
         ?>
-        <div id="apply_form" class="modal grey lighten-3 grey-text text-darken-3">
+        <div class="result"></div>
+
+        <div id="apply_modal" class="modal grey lighten-3 grey-text text-darken-3">
             <div class="modal-content">
                 <a class="modal-close center grey lighten-3 grey-text text-darken-3">
                     <h4>Apply Form<i class="material-icons right">close</i></h4>
                 </a>
                 <div class="row">
-                    <form class="col s12" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+                    <form id="apply_form" class="col s12" action="" method="post">
                         <div class="row">
                             <div class="input-field col s6">
                                 <i class="material-icons prefix">account_circle</i>
-                                <input id="first_name" type="text" class="validate">
-                                <label for="first_name">First Name</label>
+                                <input id="fname" type="text" class="" name="fname">
+                                <label for="fname">First Name</label>
+                                <small id="nameErr" class="red-text"></small>
                             </div>
                             <div class="input-field col s6">
-                                <input id="last_name" type="text" class="validate">
-                                <label for="last_name">Last Name</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="input-field col s12">
-                                <i class="material-icons prefix">lock</i>
-                                <input id="password" type="password" class="validate">
-                                <label for="password">Password</label>
+                                <input id="lname" type="text" class="" name="lname">
+                                <label for="lname">Last Name</label>
                             </div>
                         </div>
                         <div class="row">
                             <div class="input-field col s12">
                                 <i class="material-icons prefix">email</i>
-                                <input id="email" type="email" class="validate">
+                                <input id="email" type="email" class="" name="email">
                                 <label for="email">Email</label>
+                                <small id="emailErr" class="red-text"></small>
                             </div>
                         </div>
                         <div class="row">
                             <div class="input-field col s12">
                                 <i class="material-icons prefix">phone</i>
-                                <input id="phone" type="text" class="validate">
+                                <input id="phone" type="text" class="" name="phone">
                                 <label for="phone">Phone</label>
+                                <small id="phoneErr" class="red-text"></small>
                             </div>
                         </div>
                         <div class="row">
                             <div class="input-field col s12">
                                 <i class="material-icons prefix">edit</i>
-                                <textarea id="textarea" class="materialize-textarea" data-length="1000"></textarea>
-                                <label for="textarea">Message</label>
+                                <textarea id="message" class="materialize-textarea" data-length="1000" name="message"></textarea>
+                                <label for="message">Message</label>
+                                <small id="messageErr" class="red-text"></small>
                             </div>
                         </div>
                         <div class="file-field input-field">
-                            <div class="btn">
+                            <div class="btn yellow">
                                 <span>CV</span>
                                 <input type="file">
                             </div>
                             <div class="file-path-wrapper">
-                                <input class="file-path validate" type="text">
+                                <input id="cv" class="file-path " type="text" name="cv">
+                                <small id="cvErr" class="red-text"></small>
                             </div>
                         </div>
                         <div class="row center">
-                            <button class="btn waves-effect waves-light" type="submit" name="action">
+                            <button class="btn yellow waves-effect waves-light submit-btn" type="submit">
                                 Apply
                                 <i class="material-icons right">send</i>
                             </button>

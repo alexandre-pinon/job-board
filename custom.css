@@ -32,3 +32,25 @@
 a.modal-close h4 i.right {
     margin-left: -39px;
 }
+
+/* label color */
+.input-field label {
+    color: black;
+}
+/* label focus color */
+.input-field input[type=text]:not(.browser-default):focus:not([readonly]) + label,
+.input-field input[type=email]:not(.browser-default):focus:not([readonly]) + label,
+.input-field textarea.materialize-textarea:focus:not([readonly]) + label {
+    color: yellow;
+}
+/* label underline focus color */
+.input-field input[type=text]:not(.browser-default):focus:not([readonly]),
+.input-field input[type=email]:not(.browser-default):focus:not([readonly]),
+.input-field textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid yellow;
+    box-shadow: 0 1px 0 0 yellow;
+}
+/* icon prefix focus color */
+.input-field .prefix.active {
+    color: yellow;
+}
