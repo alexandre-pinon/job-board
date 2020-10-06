@@ -6,31 +6,25 @@
     header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
     
     include_once '../config/database.php';
-    include_once '../advertisements.php';
+    include_once '../companies.php';
     
     $database = new Database();
     $db = $database->getConnection();
     
-    $item = new Advertisement($db);
+    $item = new Company($db);
     
     $data = json_decode(file_get_contents("php://input"));
     
     $item->id = $data->id;
     
     // advertisements values
-    $item->title = $data->title;
-    $item->description = $data->description;
-    $item->contract_type = $data->contract_type;
-    $item->starting_date = $data->starting_date;
-    $item->min_salary = $data->min_salary;
-    $item->max_salary = $data->max_salary;
-    $item->localisation = $data->localisation;
-    $item->study_level = $data->study_level;
-    $item->experience_years = $data->experience_years;
-    $item->company_id = $data->company_id;
+    $item->name = $data->name;
+    $item->logo = $data->logo;
+    $item->background = $data->background;
     
-    if($item->updateAdvertisement()){
-        echo json_encode("Advertisement data updated.");
+    // 
+    if($item->updateCompany()){
+        echo json_encode("Company data updated.");
     } else{
         echo json_encode("Data could not be updated");
     }
