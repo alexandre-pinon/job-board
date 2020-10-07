@@ -55,7 +55,7 @@
 
     // Define variables and initialize with empty values
     $nameErr = $emailErr = $phoneErr = $messageErr = $cvErr = "";
-    $name = $email = $phone = $message = $cv = "";
+    $name = $email = $phone = $message = $cv = $advertisement_id = "";
 
     // Processing form data when form is submitted
     if($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -110,42 +110,68 @@
             }
         }
 
-        // if(empty($nameErr) && empty($emailErr) && empty($phoneErr) && empty($messageErr) && empty($cvErr)) {
-        //     /* Attempt MySQL server connection. Assuming you are running MySQL
-        //     server with default setting (user 'root' with no password) */
-        //     $mysqli = new mysqli("localhost", "admin", "admin", "jobboard");
-            
-        //     // Check connection
-        //     if($mysqli === FALSE){
-        //         die("ERROR: Could not connect. " . $mysqli->connect_error);
-        //     }
-            
-        //     // Prepare an insert statement
-        //     $sql = "INSERT INTO job_application (name, email, phone, message, cv) VALUES (?, ?, ?, ?, ?)";
-            
-        //     if($stmt = $mysqli->prepare($sql)){
-        //         // Bind variables to the prepared statement as parameters
-        //         $stmt->bind_param("ssiss", $DBname, $DBemail, $DBphone, $DBmessage, $DBcv);
-                
-        //         // Set parameters
-        //         $DBname = $name;
-        //         $DBemail = $email;
-        //         $DBphone = $phone;
-        //         $DBmessage = $message;
-        //         $DBcv = $cv;
-                
-        //         // Attempt to execute the prepared statement
-        //         $stmt->execute()
-        //     }
-            
-        //     // Close statement
-        //     $stmt->close();
-            
-        //     // Close connection
-        //     $mysqli->close();
-        // }
+        // Get Advertisement ID
+        $advertisement_id = (int)$_POST["advertisement_id"];
 
         $response = array("nameErr"=>$nameErr, "emailErr"=>$emailErr, "phoneErr"=>$phoneErr, "messageErr"=>$messageErr, "cvErr"=>$cvErr);
+        
+        if (empty($nameErr) && empty($emailErr) && empty($phoneErr) && empty($messageErr) && empty($cvErr)) {
+            // Attempt MySQL server connection
+            $conn = new mysqli("localhost", "admin", "admin", "jobboard");
+            
+            // Check connection
+            if($conn === FALSE) {
+                $response["apply_message"] = "ERROR: Could not connect. ";
+                $response["apply_success"] = FALSE;
+                die("ERROR: Could not connect. " . $mysqli->connect_error);
+            }
+            mysqli_set_charset($conn, "utf8");
+            
+            if ($stmt_check = $conn->prepare("SELECT * FROM job_application WHERE email = ? AND advertisement_id = ?")) {
+                $stmt_check->bind_param("si", $email, $advertisement_id);
+                $stmt_check->execute();
+                $stmt_check->store_result();
+                if($stmt_check->num_rows > 0) {
+                    $response["apply_message"] = "You already apply to this ad !";
+                    $response["apply_success"] = TRUE;
+                } else {
+                    // Prepare an insert statement
+                    $sql = "INSERT INTO job_application (advertisement_id, name, email, phone, cv, message) VALUES (?, ?, ?, ?, ?, ?)";
+                    
+                    if($stmt = $conn->prepare($sql)) {
+                        // Bind variables to the prepared statement as parameters
+                        $stmt->bind_param("isssss", $advertisement_idDB, $nameDB, $emailDB, $phoneDB, $cvDB, $messageDB);
+                        
+                        // Set parameters
+                        $advertisement_idDB = $advertisement_id;
+                        $nameDB = $name;
+                        $emailDB = $email;
+                        $phoneDB = $phone;
+                        $cvDB = $cv;
+                        $messageDB = $message;
+                        
+                        // Attempt to execute the prepared statement
+                        if($stmt->execute()) {
+                            $response["apply_message"] = "Records inserted successfully.";
+                            $response["apply_success"] = TRUE;
+                        } else {
+                            $response["apply_message"] = "ERROR: Could not execute query: $sql. " . $conn->error;
+                            $response["apply_success"] = FALSE;
+                        }
+                    } else {    
+                        $response["apply_message"] = "ERROR: Could not prepare query: $sql. " . $conn->error;
+                        $response["apply_success"] = FALSE;
+                    }
+                    // Close statement
+                    $stmt->close();
+                } 
+            } else {
+                $response["apply_message"] = "ERROR 37";
+                $response["apply_success"] = FALSE;
+            }
+            // Close connection
+            $conn->close();
+        }
         header("content-type: application/json");
         echo json_encode($response);
     }

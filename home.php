@@ -65,7 +65,6 @@
             }
             $conn->close();
         ?>
-        <div class="result"></div>
 
         <div id="apply_modal" class="modal grey lighten-3 grey-text text-darken-3">
             <div class="modal-content">
