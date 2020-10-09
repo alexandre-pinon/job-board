@@ -1,5 +1,8 @@
 $(document).ready(function () {
 
+    /** GLOBAL VAR **/
+    var onModalClose = "";
+
     /** FUNCTIONS **/
 
     // Display job cards
@@ -70,6 +73,74 @@ $(document).ready(function () {
                 {height: '279.2px'},
                 'slow'
             );
+        });
+
+        // Apply modal parameters
+        $('#apply_modal').modal({
+            dismissible: false,
+            onCloseEnd: function() {
+                // "Alert when closing form"
+                if (onModalClose !== "") {
+                    alert(onModalClose);
+                }
+                onModalClose = "";
+
+                // Remove event listener
+                $('.submit-btn').off("click");
+
+                // Set/Reset inputs and input error fields
+                $('#nameErr').html("");
+                $('#emailErr').html("");
+                $('#phoneErr').html("");
+                $('#messageErr').html("");
+                $('#cvErr').html("");
+                $('#apply_form')[0].reset();
+            }
+        });
+
+        $('.submit-trigger').click(function () {
+            var advertisement_id = $(this).attr('id');
+    
+            $('.submit-btn').click(function (e) {
+                e.preventDefault();
+
+                // Retrieve input values
+                var fname = $('#fname').val();
+                var lname = $('#lname').val();
+                var email = $('#email').val();
+                var phone = $('#phone').val();
+                var message = $('#message').val();
+                var cv = $('#cv').val();
+
+                // Ajax POST to filter and insert input into database
+                $.ajax({
+                    type: "POST",
+                    url: "../php/crud/create_jobapps.php",
+                    data: {"fname": fname, "lname": lname, "email": email, "phone": phone, "message": message, "cv": cv, "advertisement_id": advertisement_id},
+                    success: function (data, status, xhr) {
+
+                        // Display error messages to user
+                        $('#nameErr').html(data.nameErr);
+                        $('#emailErr').html(data.emailErr);
+                        $('#phoneErr').html(data.phoneErr);
+                        $('#messageErr').html(data.messageErr);
+                        $('#cvErr').html(data.cvErr);
+                        $('#apply_form')[0].reset();
+    
+                        if (data.apply_success) {
+                            // Close form and define alert message
+                            onModalClose = data.apply_message;
+                            $('#apply_modal').modal("close");
+                        }
+                    },
+                    error: function (data, status, xhr) {
+                        // Debug if error
+                        console.log(data);
+                        console.log(status);
+                        console.log(xhr);
+                    }
+                });
+            });
         });
     }
 

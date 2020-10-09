@@ -44,15 +44,6 @@
                         message = :message";
         
             $stmt = $this->conn->prepare($sqlQuery);
-        
-            // sanitize
-            $this->user_id=htmlspecialchars(strip_tags($this->user_id));
-            $this->advertisement_id=htmlspecialchars(strip_tags($this->advertisement_id));
-            $this->name=htmlspecialchars(strip_tags($this->name));
-            $this->email=htmlspecialchars(strip_tags($this->email));
-            $this->phone=htmlspecialchars(strip_tags($this->phone));
-            $this->cv=htmlspecialchars(strip_tags($this->cv));
-            $this->message=htmlspecialchars(strip_tags($this->message));
 
             // bind data
             $stmt->bindParam(":user_id", $this->user_id);
