@@ -18,12 +18,36 @@
         }
     }
 
+    function filterPassword($password) {
+        // Sanitize password
+        $password = filter_var(trim($password), FILTER_SANITIZE_STRING);
+
+        // Validate password
+        if(strlen($password) < 6 or strlen($password) > 100) {
+            return FALSE;
+        } else {
+            return $password;
+        }
+    }
+
+    function filterConfirmPassword($password, $confirmPassword) {
+        // Sanitize confirm password
+        $confirmPassword = filter_var(trim($confirmPassword), FILTER_SANITIZE_STRING);
+
+        // Validate password
+        if($password != $confirmPassword) {
+            return FALSE;
+        } else {
+            return $confirmPassword;
+        }
+    }
+
     function filterEmail($email) {
         // Sanitize e-mail address
         $email = filter_var(trim($email), FILTER_SANITIZE_EMAIL);
         
         // Validate e-mail address
-        if(filter_var($email, FILTER_VALIDATE_EMAIL)){
+        if(filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return $email;
         } else {
             return FALSE;

@@ -99,7 +99,7 @@ try {
         id INT(6) UNSIGNED AUTO_INCREMENT,
         user_id INT(6),
         advertisement_id INT(6) NOT NULL,
-        name VARCHAR(100),
+        name VARCHAR(100) NOT NULL,
         email VARCHAR(100) NOT NULL,
         phone VARCHAR(20),
         cv VARCHAR(200), -- Nom du fichier CV

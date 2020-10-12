@@ -1,3 +1,11 @@
+body {
+    background:
+        linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+        no-repeat url("../ressources/front_images/home_background.jpg");
+    background-position:center center;
+    background-size: cover;
+}
+
 .card-image {
     height: 68px;
 }
@@ -18,6 +26,7 @@
 
 .card {
     border: solid white 3px;
+    height: 291.2px;
 }
 
 .card .card-content {
@@ -40,12 +49,14 @@ a.modal-close h4 i.right {
 /* label focus color */
 .input-field input[type=text]:not(.browser-default):focus:not([readonly]) + label,
 .input-field input[type=email]:not(.browser-default):focus:not([readonly]) + label,
+.input-field input[type=password]:not(.browser-default):focus:not([readonly]) + label,
 .input-field textarea.materialize-textarea:focus:not([readonly]) + label {
     color: yellow;
 }
 /* label underline focus color */
 .input-field input[type=text]:not(.browser-default):focus:not([readonly]),
 .input-field input[type=email]:not(.browser-default):focus:not([readonly]),
+.input-field input[type=password]:not(.browser-default):focus:not([readonly]),
 .input-field textarea.materialize-textarea:focus:not([readonly]) {
     border-bottom: 1px solid yellow;
     box-shadow: 0 1px 0 0 yellow;
@@ -58,4 +69,8 @@ a.modal-close h4 i.right {
 #authentification li{
     display: inline;
     padding: 15px;
+}
+
+#authentification li:hover {
+    text-decoration: underline;
 }
