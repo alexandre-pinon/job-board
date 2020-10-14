@@ -3,8 +3,7 @@
 	include("db_connect.php");
 	$request_method = $_SERVER["REQUEST_METHOD"];
 
-	function getAdvertisements()
-	{
+	function getAdvertisements() {
 		global $conn;
 		$query = "SELECT * FROM advertisement";
 		$response = array();
@@ -16,8 +15,7 @@
 		echo json_encode($response, JSON_PRETTY_PRINT);
 	}
 	
-	function getAdvertisement($id = 0)
-	{
+	function getAdvertisement($id = 0) {
 		global $conn;
 		$query = "SELECT * FROM advertisement";
 		if($id != 0) {
@@ -32,8 +30,7 @@
 		echo json_encode($response, JSON_PRETTY_PRINT);
 	}
 	
-	function createAdvertisement()
-	{
+	function createAdvertisement() {
         global $conn;
 		$title = $_POST["title"];
 		$description = $_POST["description"];
@@ -85,8 +82,7 @@
 		echo json_encode($response);
 	}
 	
-	function updateAdvertisement($id)
-	{
+	function updateAdvertisement($id) {
 		global $conn;
 		$_PUT = array();
         parse_str(file_get_contents('php://input'), $_PUT);
@@ -130,8 +126,7 @@
 		echo json_encode($response);
 	}
 	
-	function deleteAdvertisement($id)
-	{
+	function deleteAdvertisement($id) {
 		global $conn;
 		$query = "DELETE FROM advertisement WHERE id=".$id;
 		if(mysqli_query($conn, $query)) {
@@ -149,8 +144,7 @@
 		echo json_encode($response);
 	}
 	
-	switch($request_method)
-	{
+	switch($request_method) {
 		case 'GET':
 			// Retrive Products
 			if(!empty($_GET["id"])) {

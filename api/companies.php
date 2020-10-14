@@ -3,8 +3,7 @@
 	include("db_connect.php");
 	$request_method = $_SERVER["REQUEST_METHOD"];
 
-	function getCompanies()
-	{
+	function getCompanies() {
 		global $conn;
 		$query = "SELECT * FROM company";
 		$response = array();
@@ -16,8 +15,7 @@
 		echo json_encode($response, JSON_PRETTY_PRINT);
 	}
 	
-	function getCompany($id = 0)
-	{
+	function getCompany($id = 0) {
 		global $conn;
 		$query = "SELECT * FROM company";
 		if($id != 0) {
@@ -32,8 +30,7 @@
 		echo json_encode($response, JSON_PRETTY_PRINT);
 	}
 	
-	function createCompany()
-	{
+	function createCompany() {
         global $conn;
 		$name = $_POST["name"];
 		$logo = $_POST["logo"];
@@ -64,8 +61,7 @@
 		echo json_encode($response);
 	}
 	
-	function updateCompany($id)
-	{
+	function updateCompany($id) {
 		global $conn;
 		$_PUT = array();
         parse_str(file_get_contents('php://input'), $_PUT);
@@ -95,8 +91,7 @@
 		echo json_encode($response);
 	}
 	
-	function deleteCompany($id)
-	{
+	function deleteCompany($id) {
 		global $conn;
 		$query = "DELETE FROM company WHERE id=".$id;
 		if(mysqli_query($conn, $query)) {
@@ -114,8 +109,7 @@
 		echo json_encode($response);
 	}
 	
-	switch($request_method)
-	{
+	switch($request_method) {
 		case 'GET':
 			// Retrive Products
 			if(!empty($_GET["id"])) {

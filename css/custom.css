@@ -46,12 +46,17 @@ a.modal-close h4 i.right {
 .input-field label {
     color: black;
 }
+#update_profile_form .row .input-field label,
+#update_profile_form .row .input-field input {
+    color: white;
+}
+
 /* label focus color */
 .input-field input[type=text]:not(.browser-default):focus:not([readonly]) + label,
 .input-field input[type=email]:not(.browser-default):focus:not([readonly]) + label,
 .input-field input[type=password]:not(.browser-default):focus:not([readonly]) + label,
 .input-field textarea.materialize-textarea:focus:not([readonly]) + label {
-    color: yellow;
+    color: yellow !important;
 }
 /* label underline focus color */
 .input-field input[type=text]:not(.browser-default):focus:not([readonly]),
@@ -66,11 +71,25 @@ a.modal-close h4 i.right {
     color: yellow;
 }
 
-#authentification li{
+.authentification li,
+.profile-nav li {
     display: inline;
     padding: 15px;
 }
 
-#authentification li:hover {
+.authentification li:hover,
+.profile-nav li:hover {
     text-decoration: underline;
+}
+
+.material-icons{
+    vertical-align: bottom;
+}
+
+.profile-page {
+    height: 800px;
+}
+
+#profile_title {
+    padding: 30px;
 }

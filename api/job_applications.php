@@ -4,8 +4,7 @@
 	include("filters.php");
 	$request_method = $_SERVER["REQUEST_METHOD"];
 
-	function getJobs()
-	{
+	function getJobs() {
 		global $conn;
 		$query = "SELECT * FROM job_application";
 		$response = array();
@@ -17,8 +16,7 @@
 		echo json_encode($response, JSON_PRETTY_PRINT);
 	}
 	
-	function getJob($id = 0)
-	{
+	function getJob($id = 0) {
 		global $conn;
 		$query = "SELECT * FROM job_application";
 		if($id != 0) {
@@ -33,8 +31,7 @@
 		echo json_encode($response, JSON_PRETTY_PRINT);
 	}
 	
-	function createJob()
-	{
+	function createJob() {
         global $conn;
 		$user_id = $_POST["user_id"];
 		$advertisement_id = $_POST["advertisement_id"];
@@ -77,8 +74,7 @@
 		echo json_encode($response);
 	}
 	
-	function updateJob($id)
-	{
+	function updateJob($id) {
 		global $conn;
 		$_PUT = array();
         parse_str(file_get_contents('php://input'), $_PUT);
@@ -116,8 +112,7 @@
 		echo json_encode($response);
 	}
 	
-	function deleteJob($id)
-	{
+	function deleteJob($id) {
 		global $conn;
 		$query = "DELETE FROM job_application WHERE id=".$id;
 		if(mysqli_query($conn, $query))	{
@@ -135,8 +130,7 @@
 		echo json_encode($response);
 	}
 
-	function apply()
-	{
+	function apply() {
 		// Define variables and initialize with empty values
 		$nameErr = $emailErr = $phoneErr = $messageErr = $cvErr = "";
 		$name = $email = $phone = $message = $cv = $advertisement_id = "";
@@ -165,7 +159,7 @@
 
 		// Validate phone number
 		if (empty($_POST["phone"])) {
-			$phone = "";
+			$phone = NULL;
 		} else {
 			$phone = filterPhoneNumber($_POST["phone"]);
 			if ($phone == FALSE) {
@@ -185,7 +179,7 @@
 
 		// Validate CV
 		if (empty($_POST["cv"])) {
-			$cv = "";
+			$cv = NULL;
 		} else {
 			$cv = filterString($_POST["cv"]);
 			if ($cv == FALSE) {
@@ -266,8 +260,7 @@
 		echo json_encode($response);
 	}
 	
-	switch($request_method)
-	{
+	switch($request_method) {
 		case 'GET':
 			// Retrive Products
 			if(!empty($_GET["id"])) {

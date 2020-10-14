@@ -1,0 +1,83 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="http://job-board/css/custom.css" rel="stylesheet"> 
+    <title>Profile</title>
+</head>
+<body>
+    <header class = "container center white-text">
+        <h1>THE Job Board</h1>
+    </header>
+    <div class="row center valign-wrapper">
+        <ul class="profile-nav col s12 l3 offset-l9">
+            <li>
+                <a href="http://job-board/home.html" class="white-text"><i class="material-icons">home</i> Home</a>
+            </li>
+        </ul>
+    </div> 
+    <div class="row container">
+        <div class="card hoverable grey darken-3 white-text profile-page">
+            <h2 id="profile_title" class="center">Your profile</h2>
+            <form id="update_profile_form" class="col s12">
+                <div class="row">
+                    <div class="input-field col s6 offset-s3">
+                        <i class="material-icons prefix">account_circle</i>
+                        <input id="update_profile_fname" type="text" class="" name="update_profile_fname">
+                        <label for="update_profile_fname" class="profile-label">First Name</label>
+                        <small id="update_profile_nameErr" class="red-text"></small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6 offset-s3">
+                        <i class="material-icons prefix">account_circle</i>
+                        <input id="update_profile_lname" type="text" class="" name="update_profile_lname">
+                        <label for="update_profile_lname" class="profile-label">Last Name</label>
+                        <small id="update_profile_nameErr" class="red-text"></small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6 offset-s3">
+                        <i class="material-icons prefix">email</i>
+                        <input id="update_profile_email" type="email" class="" name="update_profile_email">
+                        <label for="update_profile_email" class="profile-label">Email</label>
+                        <small id="update_profile_emailErr" class="red-text"></small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6 offset-s3">
+                        <i class="material-icons prefix">phone</i>
+                        <input id="update_profile_phone" type="text" class="" name="update_profile_phone">
+                        <label for="update_profile_phone" class="profile-label">Phone</label>
+                        <small id="update_profile_phoneErr" class="red-text"></small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="file-field input-field col s6 offset-s3">
+                        <div class="btn yellow black-text">
+                            <span>CV</span>
+                            <input type="file">
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input id="update_profile_cv" class="file-path " type="text" name="update_profile_cv">
+                            <small id="update_profile_cvErr" class="red-text"></small>
+                        </div>
+                    </div>
+                </div>
+                <div class="row center">
+                    <button class="btn yellow black-text waves-effect waves-light update_profile-btn" type="submit">
+                        Update Profile
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery.dotdotdot/4.1.0/dotdotdot.js"></script>
+    <script src="http://job-board/js/profile.js"></script>
+</body>
+</html>

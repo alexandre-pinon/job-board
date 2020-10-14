@@ -12,24 +12,32 @@
     <header class = "container center white-text">
         <h1>THE Job Board</h1>
     </header>
-    <div class="row center">
-        <ul id="authentification" class="col s12 l3 offset-l9">
+    <div id="login_bar" class="row center">
+        <ul class="authentification col s12 l3 offset-l9">
             <li><a href="#" data-target="slide-out" class="sidenav-trigger white-text">Login</a></li>
             <li><a class="modal-trigger white-text" href="#register_modal">Register</a></li>
         </ul>
     </div>
+    <div id="profile_bar" class="row center">
+        <ul class="authentification col s12 l3 offset-l9">
+            <li><a href="#" class="logout-btn white-text">Logout</a></li>
+            <li><a href="http://job-board/profile.html" class="white-text">My Profile</a></li>
+        </ul>
+    </div> 
 
     <div id="slide-out" class="sidenav">
         <div class="row container">
-            <h4 class="center">LOGIN<h4>
-            <form>
+            <h4 class="center">LOGIN</h4>
+            <form id="login_form">
                 <div class="input-field">
                     <input id="login_email" type="email" class="" name="login_email">
                     <label for="login_email">Email</label>
+                    <small id="login_emailErr" class="red-text"></small>
                 </div>
                 <div class="input-field">
-                    <input id="login_password" type="text" class="" name="login_password">
+                    <input id="login_password" type="password" class="" name="login_password">
                     <label for="login_password">Password</label>
+                    <small id="login_passwordErr" class="red-text"></small>
                 </div>
                 <div class="center">
                     <button class="btn yellow waves-effect waves-light login-btn" type="submit">
@@ -95,7 +103,7 @@
                         </div>
                     </div>
                     <div class="file-field input-field">
-                        <div class="btn yellow">
+                        <div class="btn yellow black-text">
                             <span>CV</span>
                             <input type="file">
                         </div>
@@ -105,7 +113,7 @@
                         </div>
                     </div>
                     <div class="row center">
-                        <button class="btn yellow waves-effect waves-light register-btn" type="submit">
+                        <button class="btn yellow black-text waves-effect waves-light register-btn" type="submit">
                             Register
                         </button>
                     </div>
@@ -159,7 +167,7 @@
                         </div>
                     </div>
                     <div class="file-field input-field">
-                        <div class="btn yellow">
+                        <div class="btn yellow black-text">
                             <span>CV</span>
                             <input type="file">
                         </div>
@@ -169,7 +177,7 @@
                         </div>
                     </div>
                     <div class="row center">
-                        <button class="btn yellow waves-effect waves-light submit-btn" type="submit">
+                        <button class="btn yellow black-text waves-effect waves-light submit-btn" type="submit">
                             Apply
                             <i class="material-icons right">send</i>
                         </button>

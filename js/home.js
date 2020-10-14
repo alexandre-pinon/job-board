@@ -2,8 +2,19 @@ $(document).ready(function () {
 
     /** GLOBAL VARS **/
     var onModalClose = "";
+    var onSideNavClose = "";
 
     /** FUNCTIONS **/
+
+    function switchBar(loggedIn) {
+        if(loggedIn) {
+            $('#login_bar').hide();
+            $('#profile_bar').show();
+        } else {
+            $('#profile_bar').hide();
+            $('#login_bar').show();
+        }
+    }
 
     // Display job cards
     function printJobs(ads, companies) {
@@ -26,9 +37,9 @@ $(document).ready(function () {
                 <div class="row container">
                     <div class="card hoverable grey darken-3 white-text">
                         <div class="card-image">
-                            <img src="../ressources/company_backgrounds/` + background + `" class="job-image">
+                            <img src="http://job-board/ressources/company_backgrounds/` + background + `" class="job-image">
                             <a class="activator btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
-                            <a class="btn-floating halfway-fab company-logo"><img src="../ressources/company_logos/` + logo + `"></a>
+                            <a class="btn-floating halfway-fab company-logo"><img src="http://job-board/ressources/company_logos/` + logo + `"></a>
                         </div>
                         <div class="card-content short-description">
                             <span class="card-title">` + ad.title + `</span>
@@ -104,6 +115,23 @@ $(document).ready(function () {
 
                 $('#apply_form')[0].reset();
                 $('#register_form')[0].reset();
+            }
+        });
+
+        // Apply sidenav parameters
+        $('.sidenav').sidenav({
+            onCloseEnd: function() {
+                // "Alert when closing form"
+                if (onSideNavClose !== "") {
+                    alert(onSideNavClose);
+                }
+                onSideNavClose = "";
+
+                // Set/Reset inputs and input error fields
+                $('#login_emailErr').html("");
+                $('#login_passwordErr').html("");
+
+                $('#login_form')[0].reset();
             }
         });
 
@@ -202,7 +230,10 @@ $(document).ready(function () {
                     if (data.status) {
                         // Close form and define alert message
                         onModalClose = data.status_message;
+                        switchBar(data.loggedIn);
                         $('#register_modal').modal("close");
+                    } else {
+                        alert(data.status_message);
                     }
                 },
                 error: function (data, status, xhr) {
@@ -225,26 +256,25 @@ $(document).ready(function () {
             // Ajax POST to read users and check if corresponds to input
             $.ajax({
                 type: "POST",
-                url: "../php/crud/read_users.php",
+                url: "http://job-board/api/users.php",
                 data: {
                     "email": email,
                     "password": password,
+                    "callType": "login"
                 },
                 success: function (data) {
 
                     // Display error messages to user
-                    $('#register_nameErr').html(data.nameErr);
-                    $('#register_passwordErr').html(data.passwordErr);
-                    $('#register_confirm_passwordErr').html(data.confirmPasswordErr);
-                    $('#register_emailErr').html(data.emailErr);
-                    $('#register_phoneErr').html(data.phoneErr);
-                    $('#register_cvErr').html(data.cvErr);
-                    $('#register_form')[0].reset();
+                    $('#login_emailErr').html(data.emailErr);
+                    $('#login_passwordErr').html(data.passwordErr);
 
-                    if (data.register_success) {
+                    $('#login_form')[0].reset();
+
+                    if (data.status) {
                         // Close form and define alert message
-                        onModalClose = data.register_message;
-                        $('#register_modal').modal("close");
+                        onSideNavClose = data.status_message;
+                        switchBar(data.loggedIn);
+                        $('.sidenav').sidenav("close");
                     }
                 },
                 error: function (data, status, xhr) {
@@ -276,4 +306,22 @@ $(document).ready(function () {
     $('.modal').modal();
     $('textarea#message').characterCounter();
     $('.sidenav').sidenav();
+
+    // Switch between profile bars if user connected or not
+    $.post('http://job-board/api/session.php', {callType: "login"}, function (data, status) {
+        if (status === "success") {
+            switchBar(data.loggedIn);
+        }
+    });
+
+    // Logout button event listener
+    $('.logout-btn').click(function (e) {
+        e.preventDefault();
+
+        $.post('http://job-board/api/session.php', {callType: "logout"}, function (data, status) {
+            if (status === "success") {
+                switchBar(data.loggedIn);
+            }
+        });
+    });
 });
