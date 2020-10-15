@@ -3,16 +3,52 @@ $(document).ready(function () {
     /** GLOBAL VARS **/
     var onModalClose = "";
     var onSideNavClose = "";
+    var loggedIn = "";
 
     /** FUNCTIONS **/
 
-    function switchBar(loggedIn) {
+    function switchBar(loggedIn, profile) {
         if(loggedIn) {
+            if(profile === "admin") {
+                $('#profile_list').append(
+                    "<li><a href='http://job-board/admin.html'>Admin Pannel</a></li>"
+                );
+            }
             $('#login_bar').hide();
             $('#profile_bar').show();
         } else {
+            if(profile === "admin") {
+                $('#profile_list').children(':last').remove();
+            }
             $('#profile_bar').hide();
             $('#login_bar').show();
+        }
+    }
+
+    function reInitApplyForm(loggedIn) {
+        if(loggedIn) {
+            // Retrieve user data and insert them in the apply form
+            $.get('http://job-board/api/session.php', function(data, status) {
+                if (status == "success") {
+                    // Set values with user data
+                    $('#fname').val(data[0].name.split(" ")[0]);
+                    $('#lname').val(data[0].name.split(" ")[1]);
+                    $('#email').val(data[0].email);
+                    $('#phone').val(data[0].phone);
+                    $('#cv').val(data[0].cv);
+                    $('.apply-label').attr("class", "apply-label active");
+                    console.log(data)
+                } else {
+                    alert("Error loading session info.");
+                }
+            });
+        } else {
+            // Reinitialize all values
+            $('#fname').val("");
+            $('#lname').val("");
+            $('#email').val("");
+            $('#phone').val("");
+            $('#cv').val("");
         }
     }
 
@@ -135,10 +171,14 @@ $(document).ready(function () {
             }
         });
 
-        // Submit form event listener
+        // Apply modal event listener
         $('.submit-trigger').click(function () {
             var advertisement_id = $(this).attr('id');
-    
+
+            // Load user data if logged in
+            reInitApplyForm(loggedIn);
+
+            // Submit form event listener
             $('.submit-btn').click(function (e) {
                 e.preventDefault();
 
@@ -188,104 +228,12 @@ $(document).ready(function () {
                 });
             });
         });
-
-        // Register form event listener
-        $('.register-btn').click(function (e) {
-            e.preventDefault();
-
-            // Retrieve input values
-            var fname = $('#register_fname').val();
-            var lname = $('#register_lname').val();
-            var password = $('#register_password').val();
-            var confirmPassword = $('#register_confirm_password').val();
-            var email = $('#register_email').val();
-            var phone = $('#register_phone').val();
-            var cv = $('#register_cv').val();
-
-            // Ajax POST to filter and insert input into database
-            $.ajax({
-                type: "POST",
-                url: "http://job-board/api/users.php",
-                data: {
-                    "fname": fname,
-                    "lname": lname,
-                    "password": password,
-                    "confirmPassword": confirmPassword,
-                    "email": email,
-                    "phone": phone,
-                    "cv": cv,
-                    "callType": "register"
-                },
-                success: function (data) {
-
-                    // Display error messages to user
-                    $('#register_nameErr').html(data.nameErr);
-                    $('#register_passwordErr').html(data.passwordErr);
-                    $('#register_confirm_passwordErr').html(data.confirmPasswordErr);
-                    $('#register_emailErr').html(data.emailErr);
-                    $('#register_phoneErr').html(data.phoneErr);
-                    $('#register_cvErr').html(data.cvErr);
-                    $('#register_form')[0].reset();
-
-                    if (data.status) {
-                        // Close form and define alert message
-                        onModalClose = data.status_message;
-                        switchBar(data.loggedIn);
-                        $('#register_modal').modal("close");
-                    } else {
-                        alert(data.status_message);
-                    }
-                },
-                error: function (data, status, xhr) {
-                    // Debug if error
-                    console.log(data);
-                    console.log(status);
-                    console.log(xhr);
-                }
-            });
-        });
-
-        // Login form event listener
-        $('.login-btn').click(function (e) {
-            e.preventDefault();
-
-            // Retrieve input values
-            var email = $('#login_email').val();
-            var password = $('#login_password').val();
-
-            // Ajax POST to read users and check if corresponds to input
-            $.ajax({
-                type: "POST",
-                url: "http://job-board/api/users.php",
-                data: {
-                    "email": email,
-                    "password": password,
-                    "callType": "login"
-                },
-                success: function (data) {
-
-                    // Display error messages to user
-                    $('#login_emailErr').html(data.emailErr);
-                    $('#login_passwordErr').html(data.passwordErr);
-
-                    $('#login_form')[0].reset();
-
-                    if (data.status) {
-                        // Close form and define alert message
-                        onSideNavClose = data.status_message;
-                        switchBar(data.loggedIn);
-                        $('.sidenav').sidenav("close");
-                    }
-                },
-                error: function (data, status, xhr) {
-                    // Debug if error
-                    console.log(data);
-                    console.log(status);
-                    console.log(xhr);
-                }
-            });
-        });
     }
+
+    // Charge Materialize components
+    $('.modal').modal();
+    $('textarea#message').characterCounter();
+    $('.sidenav').sidenav();
 
     // GET ajax request display job cards
     $.get('http://job-board/api/companies.php', function (companies_data, companies_status) {
@@ -302,16 +250,110 @@ $(document).ready(function () {
         }
     });
 
-    // Charge Materialize components
-    $('.modal').modal();
-    $('textarea#message').characterCounter();
-    $('.sidenav').sidenav();
-
     // Switch between profile bars if user connected or not
-    $.post('http://job-board/api/session.php', {callType: "login"}, function (data, status) {
+    $.post('http://job-board/api/session.php', {callType: "checkIfLoggedIn"}, function (data, status) {
         if (status === "success") {
-            switchBar(data.loggedIn);
+            switchBar(data.loggedIn, data.profile);
+            loggedIn = data.loggedIn;
         }
+    });
+
+    // Register form event listener
+    $('.register-btn').click(function (e) {
+        e.preventDefault();
+
+        // Retrieve input values
+        var fname = $('#register_fname').val();
+        var lname = $('#register_lname').val();
+        var password = $('#register_password').val();
+        var confirmPassword = $('#register_confirm_password').val();
+        var email = $('#register_email').val();
+        var phone = $('#register_phone').val();
+        var cv = $('#register_cv').val();
+
+        // Ajax POST to filter and insert input into database
+        $.ajax({
+            type: "POST",
+            url: "http://job-board/api/users.php",
+            data: {
+                "fname": fname,
+                "lname": lname,
+                "password": password,
+                "confirmPassword": confirmPassword,
+                "email": email,
+                "phone": phone,
+                "cv": cv,
+                "callType": "register"
+            },
+            success: function (data) {
+
+                // Display error messages to user
+                $('#register_nameErr').html(data.nameErr);
+                $('#register_passwordErr').html(data.passwordErr);
+                $('#register_confirm_passwordErr').html(data.confirmPasswordErr);
+                $('#register_emailErr').html(data.emailErr);
+                $('#register_phoneErr').html(data.phoneErr);
+                $('#register_cvErr').html(data.cvErr);
+                $('#register_form')[0].reset();
+
+                if (data.status) {
+                    // Close form and define alert message
+                    onModalClose = data.status_message;
+                    switchBar(data.loggedIn, data.profile);
+                    loggedIn = data.loggedIn;
+                    $('#register_modal').modal("close");
+                } else {
+                    alert(data.status_message);
+                }
+            },
+            error: function (data, status, xhr) {
+                // Debug if error
+                console.log(data);
+                console.log(status);
+                console.log(xhr);
+            }
+        });
+    });
+
+    // Login form event listener
+    $('.login-btn').click(function (e) {
+        e.preventDefault();
+
+        // Retrieve input values
+        var email = $('#login_email').val();
+        var password = $('#login_password').val();
+
+        // Ajax POST to read users and check if corresponds to input
+        $.ajax({
+            type: "POST",
+            url: "http://job-board/api/users.php",
+            data: {
+                "email": email,
+                "password": password,
+                "callType": "login"
+            },
+            success: function (data) {
+                // Display error messages to user
+                $('#login_emailErr').html(data.emailErr);
+                $('#login_passwordErr').html(data.passwordErr);
+
+                $('#login_form')[0].reset();
+
+                if (data.status) {
+                    // Close form and define alert message
+                    onSideNavClose = data.status_message;
+                    switchBar(data.loggedIn, data.profile);
+                    loggedIn = data.loggedIn;
+                    $('.sidenav').sidenav("close");
+                }
+            },
+            error: function (data, status, xhr) {
+                // Debug if error
+                console.log(data);
+                console.log(status);
+                console.log(xhr);
+            }
+        });
     });
 
     // Logout button event listener
@@ -320,7 +362,8 @@ $(document).ready(function () {
 
         $.post('http://job-board/api/session.php', {callType: "logout"}, function (data, status) {
             if (status === "success") {
-                switchBar(data.loggedIn);
+                switchBar(data.loggedIn, data.profile);
+                loggedIn = data.loggedIn;
             }
         });
     });

@@ -7,10 +7,13 @@
 		session_start();
 		// Define response
 		$response = array();
-		if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] === true) {
-			$response["loggedIn"] = $_SESSION["loggedIn"];
+		if(isset($_SESSION["loggedIn"]) && ($_SESSION["loggedIn"] === true)) {
+            $response["loggedIn"] = $_SESSION["loggedIn"];
 		} else {
             $response["loggedIn"] = false;
+        }
+        if(isset($_SESSION["profile"])) {
+            $response["profile"] = $_SESSION["profile"];
         }
         header('Content-Type: application/json');
         echo json_encode($response);
@@ -19,13 +22,17 @@
     function logout() {
         // Initialize the session
         session_start();
+
+        // Define response
+        $response = array("loggedIn" => false);
+        if(isset($_SESSION["profile"])) {
+            $response["profile"] = $_SESSION["profile"];
+        }
+
         // Unset all of the session variables
         $_SESSION = array();
         // Destroy the session.
         session_destroy();
-
-        // Define response
-        $response = array("loggedIn" => false);
 
         header('Content-Type: application/json');
         echo json_encode($response);
@@ -50,6 +57,18 @@
         echo json_encode($response);
     }
 
+    function checkIfAdmin() {
+        // Initialize the session
+        session_start();
+
+        // Redirect user if not admin
+        if(isset($_SESSION["profile"]) && ($_SESSION["profile"] === "admin")) {
+            exit();
+        } else {
+            header("http://job-board/admin-login.html");
+        }
+    }
+
     switch($request_method) {
         case 'GET':
             getSessionData();
@@ -57,9 +76,11 @@
         case 'POST':
             if($_POST["callType"] == "logout") {
 				logout();
-			} else {
+			} elseif($_POST["callType"] == "checkIfLoggedIn") {
                 checkIfLoggedIn();
-			}
+			} elseif($_POST["callType"] == "checkIfAdmin") {
+                checkIfAdmin();
+            }
             break;
     }
 ?>

@@ -15,17 +15,18 @@ $(document).ready(function () {
             $('#update_profile_phone').val(data[0].phone);
             $('#update_profile_cv').val(data[0].cv);
             $('.profile-label').attr("class", "profile-label active");
+            console.log(data)
 
             // Set user id & email
             user_id = data[0].id;
             user_email = data[0].email;
         } else {
-            alert("Erro loadin session info.");
+            alert("Error loading session info.");
         }
     });
 
     // Update profile form event listener
-    $('.update_profile-btn').click(function (e) {
+    $('.update-profile-btn').click(function (e) {
         e.preventDefault();
 
         // Retrieve input values
@@ -75,4 +76,44 @@ $(document).ready(function () {
         });
     });
 
+    // Reset Password form event listener
+    $('.reset-password-btn').click(function (e) {
+        e.preventDefault();
+
+        // Retrieve input values
+        var oldPassword = $('#old_password').val();
+        var newPassword = $('#new_password').val();
+        var confirmNewPassword = $('#new_confirm_password').val();
+
+        // Ajax PUT to filter and insert input into database
+        $.ajax({
+            type: "PUT",
+            url: "http://job-board/api/users.php?id=" + user_id,
+            data: {
+                "oldPassword": oldPassword,
+                "newPassword": newPassword,
+                "confirmNewPassword": confirmNewPassword,
+                "callType": "resetPassword"
+            },
+            success: function (data) {
+                // Display error messages to user
+                $('#old_passwordErr').html(data.oldPasswordErr);
+                $('#new_passwordErr').html(data.newPasswordErr);
+                $('#new_confirm_passwordErr').html(data.confirmNewPasswordErr);
+
+                $('#reset_password_form')[0].reset();
+
+                alert(data.status_message);
+            },
+            error: function (data, status, xhr) {
+                // Debug if error
+                console.log(data);
+                console.log(status);
+                console.log(xhr);
+            }
+        });
+    });
+
+    // Charge Materialize components
+    $('.tabs').tabs();
 });

@@ -61,8 +61,7 @@ try {
         cv VARCHAR(200), -- Nom du fichier CV
 
         PRIMARY KEY (id),
-        UNIQUE (email),
-        UNIQUE (name)
+        UNIQUE (email)
     )";
 
     // use exec() because no results are returned

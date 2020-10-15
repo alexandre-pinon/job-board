@@ -47,7 +47,9 @@ a.modal-close h4 i.right {
     color: black;
 }
 #update_profile_form .row .input-field label,
-#update_profile_form .row .input-field input {
+#update_profile_form .row .input-field input,
+#reset_password_form .row .input-field label,
+#reset_password_form .row .input-field input {
     color: white;
 }
 
@@ -77,9 +79,14 @@ a.modal-close h4 i.right {
     padding: 15px;
 }
 
-.authentification li:hover,
-.profile-nav li:hover {
-    text-decoration: underline;
+.authentification li a,
+.profile-nav li a {
+    color: white;
+}
+
+.authentification li a:hover,
+.profile-nav li a:hover {
+    color: yellow;
 }
 
 .material-icons{
@@ -89,6 +96,25 @@ a.modal-close h4 i.right {
 .profile-page {
     height: 800px;
 }
+
+.tabs .tab a{
+    color: white;
+} /*Black color to the text*/
+
+.tabs .tab a:hover {
+    background-color:#888;
+    color: yellow;
+} /*Text color on hover*/
+
+.tabs .tab a.active {
+    background-color:#888;
+    color: yellow;
+} /*Background and text color when a tab is active*/
+
+.tabs .indicator {
+    background-color: yellow;
+} /*Color of underline*/
+
 
 #profile_title {
     padding: 30px;

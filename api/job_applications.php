@@ -255,6 +255,9 @@
 				// Close statement
 				mysqli_stmt_close($stmt);
 			}
+		} else {
+			$response["status"] = 0;
+			$response["status_message"] = "One or more fields is incorrect.";
 		}
 		header('Content-Type: application/json');
 		echo json_encode($response);
