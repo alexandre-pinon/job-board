@@ -1,0 +1,218 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+</head>
+<body>
+    <nav>
+        <div class="nav-wrapper teal lighten-3">
+          <a href="#" class="brand-logo left">Admin Panel</a>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a href="advertisements.html">Advertisements</a></li>
+            <li><a href="companies.html">Companies</a></li>
+            <li><a href="job_applications.html">Job Applications</a></li>
+            <li><a href="users.html">Users</a></li>
+            <li><a href="#">Return Home</a></li>
+          </ul>
+        </div>
+    </nav>
+
+    <div class="div1">
+
+        <div class="row">
+            <div class="input-field col s12">
+
+                <h6>CREATE Advertisements</h6>
+
+                <form>
+                    <div class="input-field inline">
+                        <input id="title_inline" type="text" name="title" class="validate">
+                        <label for="title_inline">Title</label>
+                    </div>
+
+                    <div class="input-field inline">
+                        <input id="description_inline" type="text" name="description" class="validate">
+                        <label for="description_inline">Description</label>
+                    </div>
+
+                    <div class="input-field inline">
+                        <input id="contract_type_inline" type="text" name="contract_type" class="validate">
+                        <label for="contract_type_inline">Contract Type</label>
+                    </div>
+
+                    <div class="input-field inline">
+                        <input id="starting_date_inline" type="text" name="starting_date" class="validate">
+                        <label for="starting_date_inline">Starting Date</label>
+                    </div>
+
+                    <div class="input-field inline">
+                        <input id="min_salary_inline" type="text" name="min_salary" class="validate">
+                        <label for="min_salary_inline">Minimum Salary</label>
+                    </div>
+
+                    <div class="input-field inline">
+                        <input id="max_salary_inline" type="text" name="max_salary" class="validate">
+                        <label for="max_salary_inline">Maximum Salary</label>
+                    </div>
+
+                    <div class="input-field inline">
+                        <input id="localisation_inline" type="text" name="localisation" class="validate">
+                        <label for="localisation_inline">Localisation</label>
+                    </div>
+
+                    <div class="input-field inline">
+                        <input id="study_level_inline" type="text" name="study_level" class="validate">
+                        <label for="study_level_inline">Study Level</label>
+                    </div>
+
+                    <div class="input-field inline">
+                        <input id="experience_years_inline" type="text" name="experience_years" class="validate">
+                        <label for="experience_years_inline">Experience Years</label>
+                    </div>
+
+                    <div class="input-field inline">
+                        <input id="company_id_inline" type="text" name="company_id" class="validate">
+                        <label for="company_id_inline">Company ID</label>
+                    </div>
+
+                    <br>
+
+                    <button class="btn waves-effect waves-light" type="submit" name="action" id="b1">
+                        Submit
+                    </button>
+                </form>
+            </div>
+
+
+            <div class="input-field col s12">
+
+                <h6>READ Advertisements</h6>
+
+                <form>
+                    <table id="table1">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>Contract Type</th>
+                                <th>Starting Date</th>
+                                <th>Minimum Salary</th>
+                                <th>Maximum Salary</th>
+                                <th>Localisation</th>
+                                <th>Study Level</th>
+                                <th>Experience Years</th>
+                                <th>Company ID</th>
+                            </tr>
+                        </thead>
+                    </table>
+
+                    <br>
+
+                    <button class="btn waves-effect waves-light" type="submit" id="b_read">
+                        Submit
+                    </button>
+                </form>
+            </div>
+
+
+            <div class="input-field col s12">
+
+                <h6>UPDATE Advertisements</h6>
+
+                <form>
+
+                    <div class="input-field inline">
+                        <input id="id_inline2" type="text" name="id2" class="validate">
+                        <label for="id_inline2">ID</label>
+                    </div>
+
+                    <div class="input-field inline">
+                        <input id="title_inline2" type="text" name="title2" class="validate">
+                        <label for="title_inline2">Title</label>
+                    </div>
+
+                    <div class="input-field inline">
+                        <input id="description_inline2" type="text" name="description2" class="validate">
+                        <label for="description_inline2">Description</label>
+                    </div>
+
+                    <div class="input-field inline">
+                        <input id="contract_type_inline2" type="text" name="contract_type2" class="validate">
+                        <label for="contract_type_inline2">Contract Type</label>
+                    </div>
+
+                    <div class="input-field inline">
+                        <input id="starting_date_inline2" type="text" name="starting_date2" class="validate">
+                        <label for="starting_date_inline2">Starting Date</label>
+                    </div>
+
+                    <div class="input-field inline">
+                        <input id="min_salary_inline2" type="text" name="min_salary2" class="validate">
+                        <label for="min_salary_inline2">Minimum Salary</label>
+                    </div>
+
+                    <div class="input-field inline">
+                        <input id="max_salary_inline2" type="text" name="max_salary2" class="validate">
+                        <label for="max_salary_inline2">Maximum Salary</label>
+                    </div>
+
+                    <div class="input-field inline">
+                        <input id="localisation_inline2" type="text" name="localisation2" class="validate">
+                        <label for="localisation_inline2">Localisation</label>
+                    </div>
+
+                    <div class="input-field inline">
+                        <input id="study_level_inline2" type="text" name="study_level2" class="validate">
+                        <label for="study_level_inline2">Study Level</label>
+                    </div>
+
+                    <div class="input-field inline">
+                        <input id="experience_years_inline2" type="text" name="experience_years2" class="validate">
+                        <label for="experience_years_inline2">Experience Years</label>
+                    </div>
+
+                    <div class="input-field inline">
+                        <input id="company_id_inline2" type="text" name="company_id2" class="validate">
+                        <label for="company_id_inline2">Company ID</label>
+                    </div>
+                
+
+                    <button class="btn waves-effect waves-light" type="submit" name="action" id="b2">
+                        Submit
+                    </button>
+
+                </form>
+            </div>
+
+            <div class="input-field col s12">
+
+                <h6>DELETE Advertisements</h6>
+
+                <form>
+        
+                    <div class="input-field inline">
+                        <input id="id_inline3" type="text" name="id3" class="validate">
+                        <label for="id_inline3">ID</label>
+                    </div>
+
+                    <button class="btn waves-effect waves-light" type="submit" name="action" id="b3">
+                        Submit
+                    </button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="advertisement.js"></script>
+
+</body>
+</html>
