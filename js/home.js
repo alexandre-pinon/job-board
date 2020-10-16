@@ -11,7 +11,7 @@ $(document).ready(function () {
         if(loggedIn) {
             if(profile === "admin") {
                 $('#profile_list').append(
-                    "<li><a href='http://job-board/admin.html'>Admin Pannel</a></li>"
+                    "<li><a href='http://job-board/admin.html'>Admin Panel</a></li>"
                 );
             }
             $('#login_bar').hide();
@@ -70,7 +70,7 @@ $(document).ready(function () {
 
             // Materialize cards display
             $('article').append(`
-                <div class="row container">
+                <div class="flex-box">
                     <div class="card hoverable grey darken-3 white-text">
                         <div class="card-image">
                             <img src="http://job-board/ressources/company_backgrounds/` + background + `" class="job-image">
@@ -256,6 +256,12 @@ $(document).ready(function () {
             switchBar(data.loggedIn, data.profile);
             loggedIn = data.loggedIn;
         }
+    });
+
+    // Window scroll fadeout effect
+    $(window).scroll(function() {
+        // $('#home_screen').css("opacity", 0.5 - $(window).scrollTop() / 1200);
+        $('#job_div').css("margin-top", 50 - $(window).scrollTop() / 10 + "vh");
     });
 
     // Register form event listener

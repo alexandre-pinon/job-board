@@ -9,21 +9,24 @@
         <title>THE Job Board</title>
     </head>
     <body>
-        <header class = "container center white-text">
-            <h1>THE Job Board</h1>
-        </header>
-        <div id="login_bar" class="row center">
-            <ul class="authentification col s12 l3 offset-l9">
-                <li><a href="#" data-target="slide-out" class="sidenav-trigger">Login</a></li>
-                <li><a class="modal-trigger" href="#register_modal">Register</a></li>
-            </ul>
+        <div id="home_screen">
+            <header class = "row container center white-text">
+                <h1>THE Job Board</h1>
+            </header>
+            <div id="login_bar" class="row center">
+                <ul class="authentification col s12">
+                    <li><a href="#" data-target="slide-out" class="sidenav-trigger">Login</a></li>
+                    <li><a class="modal-trigger" href="#register_modal">Register</a></li>
+                </ul>
+            </div>
+            <div id="profile_bar" class="row center">
+                <ul id="profile_list" class="authentification col s12">
+                    <li><a href="#" class="logout-btn">Logout</a></li>
+                    <li><a href="http://job-board/profile.html">My Profile</a></li>
+                </ul>
+            </div>
         </div>
-        <div id="profile_bar" class="row center">
-            <ul id="profile_list" class="authentification col s12 xl3 offset-xl9">
-                <li><a href="#" class="logout-btn">Logout</a></li>
-                <li><a href="http://job-board/profile.html">My Profile</a></li>
-            </ul>
-        </div> 
+        
 
         <div id="slide-out" class="sidenav">
             <div class="row container">
@@ -40,7 +43,7 @@
                         <small id="login_passwordErr" class="red-text"></small>
                     </div>
                     <div class="center">
-                        <button class="btn yellow waves-effect waves-light login-btn" type="submit">
+                        <button class="btn red waves-effect waves-light login-btn" type="submit">
                             Connect
                         </button>
                     </div>
@@ -48,7 +51,8 @@
             </div>
         </div>
 
-        <article></article>
+        
+        <div id="job_div"><article class="flex-container container"></article></div>     
 
         <div id="register_modal" class="modal grey lighten-3 grey-text text-darken-3">
             <div class="modal-content">
@@ -103,7 +107,7 @@
                             </div>
                         </div>
                         <div class="file-field input-field">
-                            <div class="btn yellow black-text">
+                            <div class="btn red black-text">
                                 <span>CV</span>
                                 <input type="file">
                             </div>
@@ -113,7 +117,7 @@
                             </div>
                         </div>
                         <div class="row center">
-                            <button class="btn yellow black-text waves-effect waves-light register-btn" type="submit">
+                            <button class="btn red black-text waves-effect waves-light register-btn" type="submit">
                                 Register
                             </button>
                         </div>
@@ -167,7 +171,7 @@
                             </div>
                         </div>
                         <div class="file-field input-field">
-                            <div class="btn yellow black-text">
+                            <div class="btn red white-text">
                                 <span>CV</span>
                                 <input type="file">
                             </div>
@@ -177,7 +181,7 @@
                             </div>
                         </div>
                         <div class="row center">
-                            <button class="btn yellow black-text waves-effect waves-light submit-btn" type="submit">
+                            <button class="btn red white-text waves-effect waves-light submit-btn" type="submit">
                                 Apply
                                 <i class="material-icons right">send</i>
                             </button>

@@ -1,3 +1,2 @@
 RewriteEngine On # Activer le module Rewrite
-
-RewriteRule ([a-z]+)\/([0-9]+)$ $1?id=$2
+RewriteRule ^api/([^/]+)/(\d+)$ api/$1?id=$2

@@ -1,7 +1,39 @@
 body {
-    background:
+    /* background:
         linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
         no-repeat url("../ressources/front_images/home_background.jpg");
+    background-position:center center;
+    background-size: cover; */
+    background-color: rgb(50, 50, 50);
+}
+
+h1 {
+    margin: 0;
+    font-size: 10rem;
+}
+
+#home_screen {
+    background:
+        linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+        no-repeat url("../ressources/front_images/home_background_2.jpg");
+    background-position:center center;
+    background-size: cover;
+    height: 110vh;
+    padding-top: 10vh;
+}
+
+#profile_header {
+    padding-top: 10vh;
+}
+
+#login_bar, #profile_bar, #home_bar {
+    padding-top: 5vh;
+}
+
+#body_profile {
+    background:
+        linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+        no-repeat url("../ressources/front_images/home_background_2.jpg");
     background-position:center center;
     background-size: cover;
 }
@@ -42,6 +74,11 @@ a.modal-close h4 i.right {
     margin-left: -39px;
 }
 
+.card .card-action a:not(.btn):not(.btn-large):not(.btn-small):not(.btn-large):not(.btn-floating) {
+    margin: 0;
+    color: #F44336;
+}
+
 /* label color */
 .input-field label {
     color: black;
@@ -58,35 +95,36 @@ a.modal-close h4 i.right {
 .input-field input[type=email]:not(.browser-default):focus:not([readonly]) + label,
 .input-field input[type=password]:not(.browser-default):focus:not([readonly]) + label,
 .input-field textarea.materialize-textarea:focus:not([readonly]) + label {
-    color: yellow !important;
+    color: #F44336 !important;
 }
 /* label underline focus color */
 .input-field input[type=text]:not(.browser-default):focus:not([readonly]),
 .input-field input[type=email]:not(.browser-default):focus:not([readonly]),
 .input-field input[type=password]:not(.browser-default):focus:not([readonly]),
 .input-field textarea.materialize-textarea:focus:not([readonly]) {
-    border-bottom: 1px solid yellow;
-    box-shadow: 0 1px 0 0 yellow;
+    border-bottom: 1px solid #F44336;
+    box-shadow: 0 1px 0 0 #F44336;
 }
 /* icon prefix focus color */
 .input-field .prefix.active {
-    color: yellow;
+    color: #F44336;
 }
 
 .authentification li,
 .profile-nav li {
     display: inline;
-    padding: 15px;
+    padding: 0 5vh;
 }
 
 .authentification li a,
 .profile-nav li a {
     color: white;
+    font-size: 2rem;
 }
 
 .authentification li a:hover,
 .profile-nav li a:hover {
-    color: yellow;
+    color: #F44336;
 }
 
 .material-icons{
@@ -102,19 +140,41 @@ a.modal-close h4 i.right {
 } /*Black color to the text*/
 
 .tabs .tab a:hover {
-    background-color:#888;
-    color: yellow;
+    background-color:rgb(50, 50, 50);
+    color: #F44336;
 } /*Text color on hover*/
 
 .tabs .tab a.active {
-    background-color:#888;
-    color: yellow;
+    background-color:rgb(50, 50, 50);
+    color: #F44336;
 } /*Background and text color when a tab is active*/
 
 .tabs .indicator {
-    background-color: yellow;
+    background-color: #F44336;
 } /*Color of underline*/
 
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: -10vh;
+}
+
+.flex-box {
+    margin: 1%;
+    width: 31.333%;
+}
+
+@media only screen and (max-width: 1200px) {
+    .flex-box {
+        width: 48%;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .flex-box {
+        width: 98%
+    }
+}
 
 #profile_title {
     padding: 30px;

@@ -9,113 +9,117 @@
         <title>Profile</title>
     </head>
     <body>
-        <header class = "container center white-text">
-            <h1>THE Job Board</h1>
-        </header>
-        <div class="row center">
-            <ul class="profile-nav col s12 l3 offset-l9">
-                <li>
-                    <a href="http://job-board/home.html"><i class="material-icons">home</i> Home</a>
-                </li>
-            </ul>
-        </div>
-        <div class="row container">
-            <div class="col s4">
-                <ul class="tabs grey darken-3">
-                    <li class="tab col s6"><a class="active" href="#update_profile_tab">Profile</a></li>
-                    <li class="tab col s6"><a href="#reset_password_tab">Reset Password</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="row container">
-            <div class="card hoverable grey darken-3 white-text profile-page">
-                <div id="update_profile_tab">
-                    <h2 id="profile_title" class="center">Your profile</h2>
-                    <form id="update_profile_form" class="col s12">
-                        <div class="row">
-                            <div class="input-field col s6 offset-s3">
-                                <i class="material-icons prefix">account_circle</i>
-                                <input id="update_profile_fname" type="text" class="" name="update_profile_fname">
-                                <label for="update_profile_fname" class="profile-label">First Name</label>
-                                <small id="update_profile_nameErr" class="red-text"></small>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="input-field col s6 offset-s3">
-                                <i class="material-icons prefix">account_circle</i>
-                                <input id="update_profile_lname" type="text" class="" name="update_profile_lname">
-                                <label for="update_profile_lname" class="profile-label">Last Name</label>
-                                <small id="update_profile_nameErr" class="red-text"></small>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="input-field col s6 offset-s3">
-                                <i class="material-icons prefix">email</i>
-                                <input id="update_profile_email" type="email" class="" name="update_profile_email">
-                                <label for="update_profile_email" class="profile-label">Email</label>
-                                <small id="update_profile_emailErr" class="red-text"></small>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="input-field col s6 offset-s3">
-                                <i class="material-icons prefix">phone</i>
-                                <input id="update_profile_phone" type="text" class="" name="update_profile_phone">
-                                <label for="update_profile_phone" class="profile-label">Phone</label>
-                                <small id="update_profile_phoneErr" class="red-text"></small>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="file-field input-field col s6 offset-s3">
-                                <div class="btn yellow black-text">
-                                    <span>CV</span>
-                                    <input type="file">
-                                </div>
-                                <div class="file-path-wrapper">
-                                    <input id="update_profile_cv" class="file-path " type="text" name="update_profile_cv">
-                                    <small id="update_profile_cvErr" class="red-text"></small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row center">
-                            <button class="btn yellow black-text waves-effect waves-light update-profile-btn" type="submit">
-                                Update Profile
-                            </button>
-                        </div>
-                    </form>
+        <div id="body_profile">
+            <div id="profile_header">
+                <header class = "container center white-text">
+                    <h1>THE Job Board</h1>
+                </header>
+                <div id="home_bar" class="row center">
+                    <ul class="profile-nav col s12">
+                        <li>
+                            <a href="http://job-board/home.html"><i class="material-icons medium">home</i> Home</a>
+                        </li>
+                    </ul>
                 </div>
-                <div id="reset_password_tab">
-                    <h2 id="profile_title" class="center">Reset Password</h2>
-                    <form id="reset_password_form" class="col s12">
-                        <div class="row">
-                            <div class="input-field col s6 offset-s3">
-                                <i class="material-icons prefix">lock</i>
-                                <input id="old_password" type="password" class="" name="old_password">
-                                <label for="old_password">Your Password</label>
-                                <small id="old_passwordErr" class="red-text"></small>
+            </div>
+            <div class="row container">
+                <div class="col s4">
+                    <ul class="tabs grey darken-3">
+                        <li class="tab col s6"><a class="active" href="#update_profile_tab">Profile</a></li>
+                        <li class="tab col s6"><a href="#reset_password_tab">Reset Password</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row container">
+                <div class="card hoverable grey darken-3 white-text profile-page">
+                    <div id="update_profile_tab">
+                        <h2 id="profile_title" class="center">Your profile</h2>
+                        <form id="update_profile_form" class="col s12">
+                            <div class="row">
+                                <div class="input-field col s6 offset-s3">
+                                    <i class="material-icons prefix">account_circle</i>
+                                    <input id="update_profile_fname" type="text" class="" name="update_profile_fname">
+                                    <label for="update_profile_fname" class="profile-label">First Name</label>
+                                    <small id="update_profile_nameErr" class="red-text"></small>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="input-field col s6 offset-s3">
-                                <i class="material-icons prefix">lock</i>
-                                <input id="new_password" type="password" class="" name="new_password">
-                                <label for="new_password">New Password</label>
-                                <small id="new_passwordErr" class="red-text"></small>
+                            <div class="row">
+                                <div class="input-field col s6 offset-s3">
+                                    <i class="material-icons prefix">account_circle</i>
+                                    <input id="update_profile_lname" type="text" class="" name="update_profile_lname">
+                                    <label for="update_profile_lname" class="profile-label">Last Name</label>
+                                    <small id="update_profile_nameErr" class="red-text"></small>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="input-field col s6 offset-s3">
-                                <i class="material-icons prefix">lock</i>
-                                <input id="new_confirm_password" type="password" class="" name="new_confirm_password">
-                                <label for="new_confirm_password">Confirm New Password</label>
-                                <small id="new_confirm_passwordErr" class="red-text"></small>
+                            <div class="row">
+                                <div class="input-field col s6 offset-s3">
+                                    <i class="material-icons prefix">email</i>
+                                    <input id="update_profile_email" type="email" class="" name="update_profile_email">
+                                    <label for="update_profile_email" class="profile-label">Email</label>
+                                    <small id="update_profile_emailErr" class="red-text"></small>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row center">
-                            <button class="btn yellow black-text waves-effect waves-light reset-password-btn" type="submit">
-                                Confirm
-                            </button>
-                        </div>
-                    </form>
+                            <div class="row">
+                                <div class="input-field col s6 offset-s3">
+                                    <i class="material-icons prefix">phone</i>
+                                    <input id="update_profile_phone" type="text" class="" name="update_profile_phone">
+                                    <label for="update_profile_phone" class="profile-label">Phone</label>
+                                    <small id="update_profile_phoneErr" class="red-text"></small>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="file-field input-field col s6 offset-s3">
+                                    <div class="btn red white-text">
+                                        <span>CV</span>
+                                        <input type="file">
+                                    </div>
+                                    <div class="file-path-wrapper">
+                                        <input id="update_profile_cv" class="file-path " type="text" name="update_profile_cv">
+                                        <small id="update_profile_cvErr" class="red-text"></small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row center">
+                                <button class="btn red white-text waves-effect waves-light update-profile-btn" type="submit">
+                                    Update Profile
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="reset_password_tab">
+                        <h2 id="profile_title" class="center">Reset Password</h2>
+                        <form id="reset_password_form" class="col s12">
+                            <div class="row">
+                                <div class="input-field col s6 offset-s3">
+                                    <i class="material-icons prefix">lock</i>
+                                    <input id="old_password" type="password" class="" name="old_password">
+                                    <label for="old_password">Your Password</label>
+                                    <small id="old_passwordErr" class="red-text"></small>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s6 offset-s3">
+                                    <i class="material-icons prefix">lock</i>
+                                    <input id="new_password" type="password" class="" name="new_password">
+                                    <label for="new_password">New Password</label>
+                                    <small id="new_passwordErr" class="red-text"></small>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s6 offset-s3">
+                                    <i class="material-icons prefix">lock</i>
+                                    <input id="new_confirm_password" type="password" class="" name="new_confirm_password">
+                                    <label for="new_confirm_password">Confirm New Password</label>
+                                    <small id="new_confirm_passwordErr" class="red-text"></small>
+                                </div>
+                            </div>
+                            <div class="row center">
+                                <button class="btn red white-text waves-effect waves-light reset-password-btn" type="submit">
+                                    Confirm
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
