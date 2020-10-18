@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Oct 16, 2020 at 11:25 PM
+-- Generation Time: Oct 18, 2020 at 08:04 PM
 -- Server version: 5.7.31
 -- PHP Version: 7.3.21
 
@@ -24,32 +24,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `company`
---
-
-DROP TABLE IF EXISTS `company`;
-CREATE TABLE IF NOT EXISTS `company` (
-  `id` int(6) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `logo` varchar(100) DEFAULT NULL,
-  `background` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `company`
---
-
-INSERT INTO `company` (`id`, `name`, `logo`, `background`) VALUES
-(1, 'SCALEWAY', 'SCALEWAY.png', 'SCALEWAY_BACKGROUND.jpg'),
-(2, 'MATERA', 'MATERA.png', 'MATERA_BACKGROUND.jpg'),
-(3, 'CONSEILS-PLUS', 'CONSEILS-PLUS.png', 'CONSEILS-PLUS_BACKGROUND.jpg'),
-(4, 'KAVALRY', 'KAVALRY.png', 'KAVALRY_BACKGROUND.jpg'),
-(5, 'IBANFIRST', 'IBANFIRST.png', 'IBANFIRST_BACKGROUND.jpg');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `advertisement`
 --
 
@@ -65,10 +39,10 @@ CREATE TABLE IF NOT EXISTS `advertisement` (
   `localisation` varchar(100) NOT NULL,
   `study_level` varchar(100) DEFAULT NULL,
   `experience_years` int(2) DEFAULT NULL,
-  `company_id` int(6) NOT NULL,
-  PRIMARY KEY (`id`)
-  -- FOREIGN KEY (company_id) REFERENCES company(id)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+  `company_id` int(6) UNSIGNED NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `company_id` (`company_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `advertisement`
@@ -81,6 +55,61 @@ INSERT INTO `advertisement` (`id`, `title`, `description`, `contract_type`, `sta
 (4, 'Business Developer - Copropriétés neuves', 'Ta mission : faire croître le nombre de copropriétés neuves clientes chez Matera !\r\nNous ne traitons que des leads entrants, donc aucune prospection chez nous :)\r\nEvolution rapide prévue sur la première année :\r\n\r\nSur les 2 à 4 premiers mois, poste de SDR spécial neuf :\r\n\r\nPitch (à construire !) de Matera aux prospects, évangélisation sur le modèle de syndic coopératif, qualification du prospect, accompagnement pour la mise en route de sa copro le lendemain de son assemblée générale\r\nMontée en compétence sur les techniques de vente, et familiarisation avec le monde de la copro (droit et compta)\r\nAdapter et dérouler le process de vente Matera classique aux problématiques du neuf. Sur chaque opération, visite de chantier, organisation d’une pré-AG, relations avec le promoteur, audit de charges\r\nEnsuite :\r\n\r\nSignature des contrats, organisation des AG et présentation le jour J (pitch devant une cinquantaine de personnes par exemple), gestion de la relation client\r\nEnjeux : augmenter le taux de conversion dans le neuf, participer à améliorer le NPS client et promoteur immo !\r\nEn parallèle :\r\n\r\nAnalyse des leviers pour améliorer la conversion\r\nFaire remonter les retours des prospects / clients pour participer à l’amélioration du produit\r\nOrganisation d’évènements pour prêcher la bonne parole', 'CDI', NULL, NULL, NULL, 'Paris', NULL, NULL, 2),
 (13, 'CDI : CONSULTANT SAP ADMINISTRATEUR F/H', 'Intégré au sein d’une de notre équipe, vous intervenez pour nos clients européens et africains afin de réaliser les installations, montées de version, ainsi que le monitoring et la maintenance avec Solution Manager.\r\n\r\nVous travaillerez en étroite collaboration avec les équipes projet et support métier pour assurer la mise en place de SAP connecté à nos outils Solution Manager.\r\n\r\nVous mettrez en place le monitoring centralisé des indicateurs clés de fonctionnement (disponibilité, dumps, backups…) pour alerter les clients de manière pro-active, et assurez une revue régulière avec les clients en maintenance via la revue des rapports Early Watch.\r\n\r\nVous devrez aussi assurer un maintien opérationnel du système Solution Manager conformément aux exigences de la certification partenaire PCOE SAP (détenue depuis 2010).\r\n\r\nEn synthèse, vous accompagnez nos clients depuis le projet d’implémentation jusqu’au support, sur des environnements SAP ERP classiques, S/4 Hana et même les solutions Cloud telles que SCP ou ByDesign, tout en développant l’usage des fonctionnalités Solution Manager.', 'CDI', NULL, NULL, NULL, 'Tours', 'Bac +5 / Master', 3, 3),
 (14, 'Financial and HR Manager /Kavalier.e (H/F)', 'Chez Kavalry, chaque Kavalier.e opère un portefeuille de 5 à 10 clients, dont il renforce l’équipe avec des missions sur place et à distance (jusqu’à 3 créneaux/jour).\r\n\r\nLes principales missions qui te seront confiées sont :\r\n\r\nAdministratif : facturation clients & recouvrement, collecte des factures fournisseurs & paiement, suivi RH, lien avec les prestataires (expert-comptable, cabinet social, autres)\r\nLa prise en charge des demandes liées à la vie de bureau\r\nLa gestion des relations avec les fournisseurs de vie de bureau (café, fruits, repas, eau, ménage, etc)\r\nL’onboarding des nouveaux entrants de A à Z (création des comptes d’accès aux principaux outils, accueil, mise à disposition du matériel, etc)', 'CDI', '2020-08-03', NULL, NULL, 'Paris 2e Arrondissement', 'Bac +5 / Master', 2, 4);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `company`
+--
+
+DROP TABLE IF EXISTS `company`;
+CREATE TABLE IF NOT EXISTS `company` (
+  `id` int(6) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `logo` varchar(100) DEFAULT NULL,
+  `background` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `company`
+--
+
+INSERT INTO `company` (`id`, `name`, `logo`, `background`) VALUES
+(1, 'SCALEWAY', 'SCALEWAY.png', 'SCALEWAY_BACKGROUND.jpg'),
+(2, 'MATERA', 'MATERA.png', 'MATERA_BACKGROUND.jpg'),
+(3, 'CONSEILS-PLUS', 'CONSEILS-PLUS.png', 'CONSEILS-PLUS_BACKGROUND.jpg'),
+(4, 'KAVALRY', 'KAVALRY.png', 'KAVALRY_BACKGROUND.jpg'),
+(5, 'IBANFIRST', 'IBANFIRST.png', 'IBANFIRST_BACKGROUND.jpg');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `job_application`
+--
+
+DROP TABLE IF EXISTS `job_application`;
+CREATE TABLE IF NOT EXISTS `job_application` (
+  `id` int(6) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id` int(6) UNSIGNED DEFAULT NULL,
+  `advertisement_id` int(6) UNSIGNED NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `cv` varchar(200) DEFAULT NULL,
+  `message` varchar(1000) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `advertisement_id` (`advertisement_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `job_application`
+--
+
+INSERT INTO `job_application` (`id`, `user_id`, `advertisement_id`, `name`, `email`, `phone`, `cv`, `message`) VALUES
+(52, 22, 1, 'Admin Admin', 'admin@admin.com', '', '', 'Je postule'),
+(53, 22, 14, 'Admin Admin', 'admin@admin.com', '', '1603048611_New Resume.pdf', 'I apply');
 
 -- --------------------------------------------------------
 
@@ -99,54 +128,32 @@ CREATE TABLE IF NOT EXISTS `user` (
   `cv` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`id`, `name`, `email`, `phone`, `password`, `profile`, `cv`) VALUES
-(1, 'apino', 'alexandre.pinon@epitech.eu', NULL, 'password', 'admin', NULL),
-(8, 'fez fez', 'fez@fez.fez', '', 'fezfez', 'applicant', ''),
-(9, 'fezf zefze', 'htrsh@hstrh.hte', '', 'fezfez', 'applicant', ''),
-(10, 'zrgreg jrdj', 'greger@erger.erg', '', '123456', 'applicant', ''),
-(11, 'Alexandre Pinon', 'alexandre@pinon.fr', '0651663327', '', 'applicant', ''),
-(12, 'Kevin Pinon', 'kevin@sengsay.com', '0123456789', '$2y$10$qqOOxRncsIdmsSjui6oWm.iLazySg79dQ1K5nmVwxXDGAO4Hn1eui', 'admin', 'jobboard.txt'),
-(15, 'Kevin Sengsay', 'kevin@sengsay.fr', '0123456789', '1234567', 'applicant', ''),
-(17, 'Kevin Seychelles', 'bryan@seychelles.com', '0123456789', '$2y$10$CnUG5owlGnxrRRK/u3fLpuisNEzrwcLPX847VAk5EJwOwx5uOy6a.', 'applicant', '');
-
--- --------------------------------------------------------
+(22, 'Admin Admin', 'admin@admin.com', '0123456789', '$2y$10$FbGoD6gJVY98zx7LxjgdM.b6w8uEMHPpNFkdRTd8ChU90BqPYta4i', 'admin', '1603048611_New Resume.pdf');
 
 --
--- Table structure for table `job_application`
+-- Constraints for dumped tables
 --
 
-DROP TABLE IF EXISTS `job_application`;
-CREATE TABLE IF NOT EXISTS `job_application` (
-  `id` int(6) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` int(6) DEFAULT NULL,
-  `advertisement_id` int(6) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `phone` varchar(20) DEFAULT NULL,
-  `cv` varchar(200) DEFAULT NULL,
-  `message` varchar(1000) NOT NULL,
-  PRIMARY KEY (`id`)
-  -- FOREIGN KEY (`user_id`) REFERENCES user(`id`),
-  -- FOREIGN KEY (`advertisement_id`) REFERENCES advertisement(`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=latin1;
+--
+-- Constraints for table `advertisement`
+--
+ALTER TABLE `advertisement`
+  ADD CONSTRAINT `advertisement_ibfk_1` FOREIGN KEY (`company_id`) REFERENCES `company` (`id`);
 
 --
--- Dumping data for table `job_application`
+-- Constraints for table `job_application`
 --
-
-INSERT INTO `job_application` (`id`, `user_id`, `advertisement_id`, `name`, `email`, `phone`, `cv`, `message`) VALUES
-(28, 0, 1, 'fez fez', 'fez@fez.fez', '', '', 'fez'),
-(29, 0, 1, 'erg greg', 'rgeg@erg.gre', '0123456893', '', 'gre'),
-(30, 0, 1, 'Alexandre Pinon', 'zruihkezru@zfzef.gre', '', '', 'f'),
-(31, 0, 1, 'Kev Sengsay', 'kevin@sengsay.com', '0123456789', 'jobboard.txt', 'f'),
-(32, 0, 1, 'Kevin Seychelles', 'bryan@seychelles.com', '0123456789', '', 'YES'),
-(33, 0, 2, 'Kevin Pinon', 'kevin@sengsay.com', '0123456789', 'jobboard.txt', 'r');
+ALTER TABLE `job_application`
+  ADD CONSTRAINT `job_application_ibfk_1` FOREIGN KEY (`advertisement_id`) REFERENCES `advertisement` (`id`),
+  ADD CONSTRAINT `job_application_ibfk_2` FOREIGN KEY (`advertisement_id`) REFERENCES `advertisement` (`id`),
+  ADD CONSTRAINT `job_application_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
