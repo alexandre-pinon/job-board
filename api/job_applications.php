@@ -189,7 +189,15 @@
 
 		// Get Advertisement ID
 		$advertisement_id = (int)$_POST["advertisement_id"];
-		$user_id = 0; // By default if not logged in
+
+		// Initialize the session
+		session_start();
+		// If user logged in and id defined
+		if(isset($_SESSION["loggedIn"]) && ($_SESSION["loggedIn"] === true) && isset($_SESSION["id"])) {
+			$user_id = $_SESSION["id"];
+		} else {
+			$user_id = NULL; // By default if not logged in
+		}
 
 		// Define Response
 		$response = array(
@@ -222,27 +230,91 @@
 						$response["status"] = 1;
 						$response["status_message"] = "You've already apply to this job !";
 					} else {
-						$query = "INSERT INTO job_application(
-							user_id,
-							advertisement_id,
-							name,
-							email,
-							phone,
-							cv,
-							message
-						)
-						VALUES(
-							'".$user_id."',
-							'".$advertisement_id."',
-							'".$name."',
-							'".$email."',
-							'".$phone."',
-							'".$cv."',
-							'".$message."'
-						)";
+						// Upload files if exists
+						// Check if file was uploaded without errors
+						if(isset($_FILES["file_cv"]) && $_FILES["file_cv"]["error"] == 0) {
+							$allowed = array("pdf" => "application/pdf");
+							$filename = $_FILES["file_cv"]["name"];
+							$filetype = $_FILES["file_cv"]["type"];
+							$filesize = $_FILES["file_cv"]["size"];
+						
+							// Verify file extension
+							$ext = pathinfo($filename, PATHINFO_EXTENSION);
+							if(!array_key_exists($ext, $allowed)) {
+								$response["status"] = 0;
+								$response["status_message"] = "Error: Please select a valid file format.";
+								header('Content-Type: application/json');
+								echo json_encode($response);
+								exit;
+							} else {
+								// Verify file size - 50MB maximum
+								$maxsize = 50 * 1024 * 1024;
+								if($filesize > $maxsize) {
+									$response["status"] = 0;
+									$response["status_message"] = "Error: File size is larger than the allowed limit.";
+									header('Content-Type: application/json');
+									echo json_encode($response);
+									exit;
+								} else {
+									// Verify MYME type of the file
+									if(in_array($filetype, $allowed)) {
+										// Change filename to avoid overriding others
+										$filename = date_timestamp_get(date_create()) . "_" . $filename;
+										$cv = $filename;
+
+										// Upload file
+										move_uploaded_file($_FILES["file_cv"]["tmp_name"], "../ressources/cv/". $filename);								
+									} else {
+										$response["status"] = 0;
+										$response["status_message"] = "Error: There was a problem uploading your file. Please try again."; 
+										header('Content-Type: application/json');
+										echo json_encode($response);
+										exit;
+									}
+								}
+							}
+						}
+						// Send data to database
+						if (empty($user_id)) {
+							$query = "INSERT INTO job_application(
+								advertisement_id,
+								name,
+								email,
+								phone,
+								cv,
+								message
+							)
+							VALUES(
+								'".$advertisement_id."',
+								'".$name."',
+								'".$email."',
+								'".$phone."',
+								'".$cv."',
+								'".$message."'
+							)";
+						} else {
+							$query = "INSERT INTO job_application(
+								user_id,
+								advertisement_id,
+								name,
+								email,
+								phone,
+								cv,
+								message
+							)
+							VALUES(
+								'".$user_id."',
+								'".$advertisement_id."',
+								'".$name."',
+								'".$email."',
+								'".$phone."',
+								'".$cv."',
+								'".$message."'
+							)";
+						}
 						if(mysqli_query($conn, $query)) {
 							$response["status"] = 1;
-							$response["status_message"] = "Job Application created successfully.";
+							$response["status_message"] = "Job Application successfully created";
 						} else {
 							$response["status"] = 0;
 							$response["status_message"] = "Job Application could not be created.";
@@ -262,6 +334,16 @@
 		header('Content-Type: application/json');
 		echo json_encode($response);
 	}
+
+	function upload_cv() {
+		$response=array(
+			'file_cv' => $_FILES["file_cv"],
+			'callType' => $_POST["callType"]
+		);
+
+		header('Content-Type: application/json');
+		echo json_encode($response);
+	}
 	
 	switch($request_method) {
 		case 'GET':
@@ -278,6 +360,8 @@
 			// Ajouter un produit
 			if($_POST["callType"] == "apply") {
 				apply();
+			} elseif ($_POST["callType"] == "upload_cv") {
+				upload_cv();
 			} else {
 				createJob();
 			}

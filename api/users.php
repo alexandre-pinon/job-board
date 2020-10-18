@@ -231,9 +231,54 @@
 						$response["status"] = 0;
 						$response["status_message"] = "User with same email adress already exists !";
 					} else {
+						// Upload files if exists
+						// Check if file was uploaded without errors
+						if(isset($_FILES["file_cv"]) && $_FILES["file_cv"]["error"] == 0) {
+							$allowed = array("pdf" => "application/pdf");
+							$filename = $_FILES["file_cv"]["name"];
+							$filetype = $_FILES["file_cv"]["type"];
+							$filesize = $_FILES["file_cv"]["size"];
+						
+							// Verify file extension
+							$ext = pathinfo($filename, PATHINFO_EXTENSION);
+							if(!array_key_exists($ext, $allowed)) {
+								$response["status"] = 0;
+								$response["status_message"] = "Error: Please select a valid file format.";
+								header('Content-Type: application/json');
+								echo json_encode($response);
+								exit;
+							} else {
+								// Verify file size - 50MB maximum
+								$maxsize = 50 * 1024 * 1024;
+								if($filesize > $maxsize) {
+									$response["status"] = 0;
+									$response["status_message"] = "Error: File size is larger than the allowed limit.";
+									header('Content-Type: application/json');
+									echo json_encode($response);
+									exit;
+								} else {
+									// Verify MYME type of the file
+									if(in_array($filetype, $allowed)) {
+										// Change filename to avoid overriding others
+										$filename = date_timestamp_get(date_create()) . "_" . $filename;
+										$cv = $filename;
+
+										// Upload file
+										move_uploaded_file($_FILES["file_cv"]["tmp_name"], "../ressources/cv/". $filename);
+									} else {
+										$response["status"] = 0;
+										$response["status_message"] = "Error: There was a problem uploading your file. Please try again.";
+										header('Content-Type: application/json');
+										echo json_encode($response);
+										exit;
+									}
+								}
+							}
+						}
 						// Password hash
 						$password = password_hash($password, PASSWORD_DEFAULT);
 
+						// Send Data to database
 						$query = "INSERT INTO user(
 							name,
 							email,
@@ -603,6 +648,162 @@
 		header('Content-Type: application/json');
 		echo json_encode($response);
 	}
+
+	function updateProfileUpload($id) {
+		// Define variables and initialize with empty values
+		$nameErr = $emailErr = $phoneErr = $cvErr = "";
+		$name = $email = $phone = $cv = "";
+
+		// Processing form data when form is submitted
+
+		// Validate user name
+        if (empty($_POST["fname"]) or empty($_POST["lname"])) {
+            $nameErr = "Please enter your name.";
+        } else {
+            $name = filterName($_POST["fname"], $_POST["lname"]);
+            if($name == FALSE){
+                $nameErr = "Please enter a valid name.";
+            }
+        }
+
+        // Validate email address
+        if (empty($_POST["email"])) {
+            $emailErr = "Please enter your email address.";     
+        } else {
+            $email = filterEmail($_POST["email"]);
+            if ($email == FALSE) {
+                $emailErr = "Please enter a valid email address.";
+            }
+        }
+
+        // Validate phone number
+        if (empty($_POST["phone"])) {
+            $phone = NULL;
+        } else {
+            $phone = filterPhoneNumber($_POST["phone"]);
+            if ($phone == FALSE) {
+                $phoneErr = "Please enter a valid phone number. (10 numbers)";
+            }
+        }
+
+        // Validate CV
+        if (empty($_POST["cv"])) {
+            $cv = NULL;
+        } else {
+            $cv = filterString($_POST["cv"]);
+            if ($cv == FALSE) {
+                $cvErr = "Please enter a valid cv.";
+            }
+		}
+
+        // Define Response
+        $response = array(
+            "nameErr"=>$nameErr,
+            "emailErr"=>$emailErr,
+            "phoneErr"=>$phoneErr,
+            "cvErr"=>$cvErr
+		);
+
+		// If no input errors
+		if (empty($nameErr) && empty($emailErr) && empty($phoneErr) && empty($cvErr)) {
+			// Connect to API CRUD
+			global $conn;
+			if ($_POST["newEmail"] === "true") {
+				// Prepare an insert statement
+				$sql = "SELECT * FROM user WHERE email = ?";
+
+				if($stmt = mysqli_prepare($conn, $sql)) {
+					// Bind variables to the prepared statement as parameters
+					mysqli_stmt_bind_param($stmt, "s", $email);
+					
+					// Attempt to execute the prepared statement
+					if(mysqli_stmt_execute($stmt)) {
+						/* store result */
+						mysqli_stmt_store_result($stmt);
+						
+						if(mysqli_stmt_num_rows($stmt) > 0) {
+							$response["status"] = 0;
+							$response["status_message"] = "User with same email adress already exists !";
+							header('Content-Type: application/json');
+							echo json_encode($response);
+							exit();
+						}
+					} else {
+						$response["status"] = 0;
+						$response["status_message"] = "ERROR 37";
+					}
+					// Close statement
+					mysqli_stmt_close($stmt);
+				}
+			}
+			// Upload files if exists
+			// Check if file was uploaded without errors
+			if(isset($_FILES["file_cv"]) && $_FILES["file_cv"]["error"] == 0) {
+				$allowed = array("pdf" => "application/pdf");
+				$filename = $_FILES["file_cv"]["name"];
+				$filetype = $_FILES["file_cv"]["type"];
+				$filesize = $_FILES["file_cv"]["size"];
+			
+				// Verify file extension
+				$ext = pathinfo($filename, PATHINFO_EXTENSION);
+				if(!array_key_exists($ext, $allowed)) {
+					$response["status"] = 0;
+					$response["status_message"] = "Error: Please select a valid file format.";
+					header('Content-Type: application/json');
+					echo json_encode($response);
+					exit;
+				} else {
+					// Verify file size - 50MB maximum
+					$maxsize = 50 * 1024 * 1024;
+					if($filesize > $maxsize) {
+						$response["status"] = 0;
+						$response["status_message"] = "Error: File size is larger than the allowed limit.";
+						header('Content-Type: application/json');
+						echo json_encode($response);
+						exit;
+					} else {
+						// Verify MYME type of the file
+						if(in_array($filetype, $allowed)) {
+							// Change filename to avoid overriding others
+							$filename = date_timestamp_get(date_create()) . "_" . $filename;
+							$cv = $filename;
+
+							// Upload file
+							move_uploaded_file($_FILES["file_cv"]["tmp_name"], "../ressources/cv/". $filename);
+						} else {
+							$response["status"] = 0;
+							$response["status_message"] = "Error: There was a problem uploading your file. Please try again.";
+							header('Content-Type: application/json');
+							echo json_encode($response);
+							exit;
+						}
+					}
+				}
+			}
+			$query="UPDATE user SET
+				name='".$name."',
+				email='".$email."',
+				phone='".$phone."',
+				cv='".$cv."'
+				WHERE id=".$id;
+				
+			if(mysqli_query($conn, $query)) {
+				$response["status"] = 1;
+				$response["status_message"] = "User data updated successfully";
+			} else {
+				$response["status"] = 0;
+				$response["status_message"] = "Couldn't update user";
+				$response["status_message"] = $id;
+			}
+			// Close connection
+			mysqli_close($conn);
+		} else {
+			$response["status"] = 0;
+			$response["status_message"] = "One or more fields are incorrect.";
+		}		
+		header('Content-Type: application/json');
+		echo json_encode($response);
+	}
 	
 	switch($request_method) {
 		case 'GET':
@@ -621,6 +822,9 @@
 				register();
 			} elseif($_POST["callType"] == "login") {
 				login();
+			} elseif($_POST["callType"] == "updateProfileUpload") {
+				$id=intval($_GET["id"]);
+				updateProfileUpload($id);
 			} else {
 				createUser();
 			}
@@ -638,6 +842,9 @@
 			} else {
 				updateUser($id);
 			}
+			// $response = $_PUT;
+			// header('Content-Type: application/json');
+			// echo json_encode($response);
 			break;
 			
 		case 'DELETE':

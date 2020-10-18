@@ -23,10 +23,11 @@
                 </div>
             </div>
             <div class="row container">
-                <div class="col s4">
+                <div class="col s6">
                     <ul class="tabs grey darken-3">
-                        <li class="tab col s6"><a class="active" href="#update_profile_tab">Profile</a></li>
-                        <li class="tab col s6"><a href="#reset_password_tab">Reset Password</a></li>
+                        <li class="tab col s4"><a class="active" href="#update_profile_tab">Profile</a></li>
+                        <li class="tab col s4"><a href="#reset_password_tab">Reset Password</a></li>
+                        <li id="view_cv_trigger" class="tab col s4"><a href="#view_cv_tab">View CV</a></li>
                     </ul>
                 </div>
             </div>
@@ -71,7 +72,7 @@
                                 <div class="file-field input-field col s6 offset-s3">
                                     <div class="btn red white-text">
                                         <span>CV</span>
-                                        <input type="file">
+                                        <input id="update_file_cv" type="file" name="update_file_cv">
                                     </div>
                                     <div class="file-path-wrapper">
                                         <input id="update_profile_cv" class="file-path " type="text" name="update_profile_cv">
@@ -119,6 +120,15 @@
                                 </button>
                             </div>
                         </form>
+                    </div>
+                    <div id="view_cv_tab">
+                        <h2 id="profile_title" class="center">View CV</h2>
+                        <div class="row center">
+                            <a class="btn red white-text waves-effect waves-light view-cv-btn" target="_blank">
+                                <i class="material-icons">visibility</i>
+                                View
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -42,7 +42,28 @@
 		$study_level = $_POST["study_level"];
 		$experience_years = $_POST["experience_years"];
         $company_id = $_POST["company_id"];
-        
+		
+		if(!empty($starting_date)) {
+			$starting_date = "'".$starting_date."'";
+		} else {
+			$starting_date = 'NULL';
+		}
+		if(!empty($min_salary)) {
+			$min_salary = "'".$min_salary."'";
+		} else {
+			$min_salary = 'NULL';
+		}
+		if(!empty($max_salary)) {
+			$max_salary = "'".$max_salary."'";
+		} else {
+			$max_salary = 'NULL';
+		}
+		if(!empty($experience_years)) {
+			$experience_years = "'".$experience_years."'";
+		} else {
+			$experience_years = 'NULL';
+		}
+
 		$query = "INSERT INTO advertisement(
             title,
             description,
@@ -59,12 +80,12 @@
             '".$title."',
             '".$description."',
             '".$contract_type."',
-            '".$starting_date."',
-            '".$min_salary."',
-            '".$max_salary."',
+            ".$starting_date.",
+            ".$min_salary.",
+            ".$max_salary.",
             '".$localisation."',
             '".$study_level."',
-            '".$experience_years."',
+            ".$experience_years.",
             '".$company_id."'
         )";
 		if(mysqli_query($conn, $query)) {
@@ -96,20 +117,28 @@
         $localisation = $_PUT["localisation"];
 		$study_level = $_PUT["study_level"];
 		$experience_years = $_PUT["experience_years"];
-        $company_id = $_PUT["company_id"];
+		$company_id = $_PUT["company_id"];
         
 		$query="UPDATE advertisement SET
         title='".$title."',
         description='".$description."',
-        contract_type='".$contract_type."',
-        starting_date='".$starting_date."',
-        min_salary='".$min_salary."',
-        max_salary='".$max_salary."',
-        localisation='".$localisation."',
+		contract_type='".$contract_type."',
+		localisation='".$localisation."',
         study_level='".$study_level."',
-        experience_years='".$experience_years."',
-        company_id='".$company_id."'
-        WHERE id=".$id;
+		company_id='".$company_id."'";
+		if(!empty($starting_date)) {
+			$query .= ", starting_date='".$starting_date."'";
+		}
+		if(!empty($min_salary)) {
+			$query .= ", min_salary='".$min_salary."'";
+		}
+		if(!empty($max_salary)) {
+			$query .= ", max_salary='".$max_salary."'";
+		}
+		if(!empty($experience_years)) {
+			$query .= ", experience_years='".$experience_years."'";
+		}
+        $query .= " WHERE id=".$id;
 		
 		if(mysqli_query($conn, $query)) {
 			$response=array(

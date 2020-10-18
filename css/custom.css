@@ -12,6 +12,10 @@ h1 {
     font-size: 10rem;
 }
 
+td {
+    text-overflow: ellipsis;
+}
+
 #home_screen {
     background:
         linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
@@ -24,6 +28,7 @@ h1 {
 
 #profile_header {
     padding-top: 10vh;
+    padding-bottom: 10vh;
 }
 
 #login_bar, #profile_bar, #home_bar {
@@ -94,6 +99,7 @@ a.modal-close h4 i.right {
 .input-field input[type=text]:not(.browser-default):focus:not([readonly]) + label,
 .input-field input[type=email]:not(.browser-default):focus:not([readonly]) + label,
 .input-field input[type=password]:not(.browser-default):focus:not([readonly]) + label,
+.input-field input[type=number]:not(.browser-default):focus:not([readonly]) + label,
 .input-field textarea.materialize-textarea:focus:not([readonly]) + label {
     color: #F44336 !important;
 }
@@ -101,13 +107,28 @@ a.modal-close h4 i.right {
 .input-field input[type=text]:not(.browser-default):focus:not([readonly]),
 .input-field input[type=email]:not(.browser-default):focus:not([readonly]),
 .input-field input[type=password]:not(.browser-default):focus:not([readonly]),
+.input-field input[type=number]:not(.browser-default):focus:not([readonly]),
 .input-field textarea.materialize-textarea:focus:not([readonly]) {
     border-bottom: 1px solid #F44336;
     box-shadow: 0 1px 0 0 #F44336;
 }
 /* icon prefix focus color */
-.input-field .prefix.active {
+.input-field .prefix.active,
+.dropdown-content li>span,
+.datepicker-cancel,
+.datepicker-clear,
+.datepicker-today,
+.datepicker-done {
     color: #F44336;
+}
+
+.datepicker-date-display,
+.datepicker-table td.is-selected {
+    background-color: #F44336;
+}
+
+.select-wrapper input.select-dropdown:focus {
+    border-bottom-color: #F44336;
 }
 
 .authentification li,
@@ -133,6 +154,10 @@ a.modal-close h4 i.right {
 
 .profile-page {
     height: 800px;
+}
+
+.admin-panel-card {
+    height: auto;
 }
 
 .tabs .tab a{
@@ -178,4 +203,21 @@ a.modal-close h4 i.right {
 
 #profile_title {
     padding: 30px;
+}
+
+.file {
+    position: relative;
+    background: linear-gradient(to right, lightblue 50%, transparent 50%);
+    background-size: 200% 100%;
+    background-position: right bottom;
+    transition:all 1s ease;
+}
+.file.done {
+    background: lightgreen;
+}
+.file a {
+    display: block;
+    position: relative;
+    padding: 5px;
+    color: black;
 }

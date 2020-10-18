@@ -4,6 +4,7 @@ $(document).ready(function () {
     var onModalClose = "";
     var onSideNavClose = "";
     var loggedIn = "";
+    var user_cv = "";
 
     /** FUNCTIONS **/
 
@@ -28,16 +29,19 @@ $(document).ready(function () {
     function reInitApplyForm(loggedIn) {
         if(loggedIn) {
             // Retrieve user data and insert them in the apply form
-            $.get('http://job-board/api/session.php', function(data, status) {
+            $.get('../api/session.php', function(data, status) {
                 if (status == "success") {
+                    // Set user cv
+                    user_cv = data[0].cv;
+
                     // Set values with user data
                     $('#fname').val(data[0].name.split(" ")[0]);
                     $('#lname').val(data[0].name.split(" ")[1]);
                     $('#email').val(data[0].email);
                     $('#phone').val(data[0].phone);
-                    $('#cv').val(data[0].cv);
+                    $('#cv').val(user_cv.slice(user_cv.indexOf("_") + 1, user_cv.length));
                     $('.apply-label').attr("class", "apply-label active");
-                    console.log(data)
+                    console.log(user_cv);
                 } else {
                     alert("Error loading session info.");
                 }
@@ -182,29 +186,39 @@ $(document).ready(function () {
             $('.submit-btn').click(function (e) {
                 e.preventDefault();
 
-                // Retrieve input values
-                var fname = $('#fname').val();
-                var lname = $('#lname').val();
-                var email = $('#email').val();
-                var phone = $('#phone').val();
-                var message = $('#message').val();
-                var cv = $('#cv').val();
+                // If user logged in and field preset, reset cv to correct name
+                // before retrieving inputs
+                if (loggedIn && (user_cv != "")) {
+                    $('#cv').val(user_cv);
+                }
 
-                // Ajax POST to API to filter and insert input into database
+                // Retrieve input values in a formData
+                var form_data = new FormData($('#apply_form')[0]);
+                form_data.append("callType", "apply");
+                form_data.append("advertisement_id", advertisement_id);
+
+                // Check if authenticated user changed email
+                // if (loggedIn) {
+                //     var newCv;
+                //     if ($('#cv').val() != user_cv) {
+                //         newCv = true;
+                //     } else {
+                //         newCv = false;
+                //     }
+                //     form_data.append("newCv", newCv);
+                //     console.log(newCv);
+                // }
+
                 $.ajax({
-                    type: "POST",
-                    url: "http://job-board/api/job_applications.php",
-                    data: {
-                        "fname": fname,
-                        "lname": lname,
-                        "email": email,
-                        "phone": phone,
-                        "message": message,
-                        "cv": cv,
-                        "advertisement_id": advertisement_id,
-                        "callType": "apply"
-                    },
+                    url: '../api/job_applications.php', // point to server-side PHP script 
+                    dataType: 'json',  // what to expect back from the PHP script, if anything
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data: form_data,
+                    type: 'POST',
                     success: function (data) {
+                        console.log(data);
                         // Display error messages to user
                         $('#nameErr').html(data.nameErr);
                         $('#emailErr').html(data.emailErr);
@@ -217,6 +231,8 @@ $(document).ready(function () {
                             // Close form and define alert message
                             onModalClose = data.status_message;
                             $('#apply_modal').modal("close");
+                        } else {
+                            alert(data.status_message);
                         }
                     },
                     error: function (data, status, xhr) {
@@ -276,23 +292,31 @@ $(document).ready(function () {
         var email = $('#register_email').val();
         var phone = $('#register_phone').val();
         var cv = $('#register_cv').val();
+        var file_cv = $('#register_file_cv').prop('files')[0]
 
-        // Ajax POST to filter and insert input into database
+        // Retrieve input values in a formData
+        var form_data = new FormData();
+        form_data.append("fname", fname);
+        form_data.append("lname", lname);
+        form_data.append("password", password);
+        form_data.append("confirmPassword", confirmPassword);
+        form_data.append("email", email);
+        form_data.append("phone", phone);
+        form_data.append("cv", cv);
+        form_data.append("file_cv", file_cv);
+        form_data.append("callType", "register");
+        console.log($('#register_form')[0]);
+
         $.ajax({
-            type: "POST",
-            url: "http://job-board/api/users.php",
-            data: {
-                "fname": fname,
-                "lname": lname,
-                "password": password,
-                "confirmPassword": confirmPassword,
-                "email": email,
-                "phone": phone,
-                "cv": cv,
-                "callType": "register"
-            },
+            url: '../api/users.php', // point to server-side PHP script 
+            dataType: 'json',  // what to expect back from the PHP script, if anything
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: form_data,
+            type: 'POST',
             success: function (data) {
-
+                console.log(data);
                 // Display error messages to user
                 $('#register_nameErr').html(data.nameErr);
                 $('#register_passwordErr').html(data.passwordErr);

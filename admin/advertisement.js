@@ -6,7 +6,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "GET",
-            url: "http://localhost/apino-keisay/admin/includes/advertisements.php", 
+            url: "../api/advertisements.php", 
             success: function (data) {
                 console.log(data);
                 data.forEach(row => {
@@ -40,7 +40,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "POST",
-            url: "http://localhost/apino-keisay/api/advertisements.php",
+            url: "../api/advertisements.php",
             data: {
                 "title": title,
                 "description": description,
@@ -123,7 +123,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "GET",
-            url: "http://localhost/apino-keisay/admin/delete_advertisement.php",
+            url: "../api/advertisements.php",
             data: {
                 "id": id3,
             },
