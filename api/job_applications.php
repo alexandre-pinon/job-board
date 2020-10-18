@@ -35,40 +35,51 @@
         global $conn;
 		$user_id = $_POST["user_id"];
 		$advertisement_id = $_POST["advertisement_id"];
-		$name = $_POST["name"];
-		$email = $_POST["email"];
-		$phone = $_POST["phone"];
+		$name = $_POST["job_name"];
+		$email = $_POST["job_email"];
+		$phone = $_POST["job_phone"];
         $cv = $_POST["cv"];
-        $message = $_POST["message"];
-        
-		$query = "INSERT INTO job_application(
-            user_id,
-            advertisement_id,
-            name,
-            email,
-            phone,
-            cv,
-            message
-        )
-        VALUES(
-            '".$user_id."',
-            '".$advertisement_id."',
-            '".$name."',
-            '".$email."',
-            '".$phone."',
-            '".$cv."',
-            '".$message."'
-        )";
-		if(mysqli_query($conn, $query)) {
-			$response=array(
-				'status' => 1,
-				'status_message' =>'Job created successfully.'
-			);
+		$message = $_POST["message"];
+
+		if(!empty($user_id)) {
+			$user_id = "'".$user_id."'";
 		} else {
-			$response=array(
-				'status' => 0,
-				'status_message' =>'ERROR!.'. mysqli_error($conn)
-			);
+			$user_id = 'NULL';
+		}
+		
+		$response = uploadFileCv("file_cv");
+		if ($response["status"]) {
+			// Change CV if uploaded
+			if (isset($response["cv"])) {
+				$cv = $response["cv"];
+			}
+
+			$query = "INSERT INTO job_application(
+				user_id,
+				advertisement_id,
+				name,
+				email,
+				phone,
+				cv,
+				message
+			)
+			VALUES(
+				".$user_id.",
+				'".$advertisement_id."',
+				'".$name."',
+				'".$email."',
+				'".$phone."',
+				'".$cv."',
+				'".$message."'
+			)";
+				
+			if(mysqli_query($conn, $query)) {
+				$response["status"] = 1;
+				$response["status_message"] = 'Job created successfully.';
+			} else {
+				$response["status"] = 0;
+				$response["status_message"] = 'Error creating job. '. mysqli_error($conn);
+			}
 		}
 		header('Content-Type: application/json');
 		echo json_encode($response);
@@ -88,14 +99,16 @@
         $message = $_PUT["message"];
         
 		$query="UPDATE job_application SET
-        user_id='".$user_id."',
         advertisement_id='".$advertisement_id."',
         name='".$name."',
         email='".$email."',
         phone='".$phone."',
         cv='".$cv."',
-        message='".$message."'
-        WHERE id=".$id;
+		message='".$message."'";
+		if(!empty($user_id)) {
+			$query .= ", user_id='".$user_id."'";
+		}
+        $query .= " WHERE id=".$id;
 		
 		if(mysqli_query($conn, $query))	{
 			$response=array(
@@ -125,6 +138,48 @@
 				'status' => 0,
 				'status_message' =>'Error deleting job. '. mysqli_error($conn)
 			);
+		}
+		header('Content-Type: application/json');
+		echo json_encode($response);
+	}
+
+	function updateJobUpload($id) {
+		global $conn;
+        
+		$user_id = $_POST["user_id"];
+		$advertisement_id = $_POST["advertisement_id"];
+		$name = $_POST["name"];
+		$email = $_POST["email"];
+		$phone = $_POST["phone"];
+        $cv = $_POST["cv"];
+		$message = $_POST["message"];
+
+		$response = uploadFileCv("file_cv");
+		if ($response["status"]) {
+			// Change CV if uploaded
+			if (isset($response["cv"])) {
+				$cv = $response["cv"];
+			}
+
+			$query="UPDATE job_application SET
+			advertisement_id='".$advertisement_id."',
+			name='".$name."',
+			email='".$email."',
+			phone='".$phone."',
+			cv='".$cv."',
+			message='".$message."'";
+			if(!empty($user_id)) {
+				$query .= ", user_id='".$user_id."'";
+			}
+			$query .= " WHERE id=".$id;
+				
+			if(mysqli_query($conn, $query)) {
+				$response["status"] = 1;
+				$response["status_message"] = 'Job updated successfully.';
+			} else {
+				$response["status"] = 0;
+				$response["status_message"] = 'Error updating job. '. mysqli_error($conn);
+			}
 		}
 		header('Content-Type: application/json');
 		echo json_encode($response);
@@ -335,14 +390,52 @@
 		echo json_encode($response);
 	}
 
-	function upload_cv() {
-		$response=array(
-			'file_cv' => $_FILES["file_cv"],
-			'callType' => $_POST["callType"]
-		);
+	function uploadFileCv($fileToUpload) {
+		// Upload files if exists
+		// Check if file was uploaded without errors
+		if(isset($_FILES[$fileToUpload]) && $_FILES[$fileToUpload]["error"] == 0) {
+			$allowed = array("pdf" => "application/pdf");
+			$filename = $_FILES[$fileToUpload]["name"];
+			$filetype = $_FILES[$fileToUpload]["type"];
+			$filesize = $_FILES[$fileToUpload]["size"];
+		
+			// Verify file extension
+			$ext = pathinfo($filename, PATHINFO_EXTENSION);
+			if(!array_key_exists($ext, $allowed)) {
+				$response["status"] = 0;
+				$response["status_message"] = "Error: Please select a valid file format.";
+				return $response;
+			} else {
+				// Verify file size - 50MB maximum
+				$maxsize = 50 * 1024 * 1024;
+				if($filesize > $maxsize) {
+					$response["status"] = 0;
+					$response["status_message"] = "Error: File size is larger than the allowed limit.";
+					return $response;
+				} else {
+					// Verify MYME type of the file
+					if(in_array($filetype, $allowed)) {
+						// Change filename to avoid overriding others
+						$filename = date_timestamp_get(date_create()) . "_" . $filename;
 
-		header('Content-Type: application/json');
-		echo json_encode($response);
+						// Upload file
+						move_uploaded_file($_FILES[$fileToUpload]["tmp_name"], "../ressources/cv/". $filename);
+						$response["status"] = 1;
+						$response["status_message"] = "Your file was uploaded successfully.";
+						$response["cv"] = $filename;
+						return $response;
+					} else {
+						$response["status"] = 0;
+						$response["status_message"] = "Error: There was a problem uploading your file. Please try again.";
+						return $response;
+					}
+				}
+			}
+		} else {
+			$response["status"] = 1;
+			$response["status_message"] = "No file to upload !";
+			return $response;
+		}
 	}
 	
 	switch($request_method) {
@@ -358,10 +451,11 @@
 		
 		case 'POST':
 			// Ajouter un produit
-			if($_POST["callType"] == "apply") {
+			if(isset($_POST["callType"]) && ($_POST["callType"] == "apply")) {
 				apply();
-			} elseif ($_POST["callType"] == "upload_cv") {
-				upload_cv();
+			} elseif (isset($_POST["callType"]) && ($_POST["callType"] == "updateJobUpload")) {
+				$id=intval($_GET["id"]);
+				updateJobUpload($id);
 			} else {
 				createJob();
 			}

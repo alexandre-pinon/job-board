@@ -63,10 +63,15 @@
 
         // Redirect user if not admin
         if(isset($_SESSION["profile"]) && ($_SESSION["profile"] === "admin")) {
-            exit();
+            $response['status'] = 1;
+            $response['status_message'] = "All ok.";
         } else {
-            header("http://job-board/admin-login.html");
+            $response['status'] = 0;
+            $response['status_message'] = "Error : user not admin.";
+            // header("../admin-login.html");
         }
+        header('Content-Type: application/json');
+        echo json_encode($response);
     }
 
     switch($request_method) {

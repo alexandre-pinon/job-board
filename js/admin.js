@@ -1,4 +1,14 @@
 $(document).ready(function () {
+    // Check admin
+    $.post('../api/session.php', {callType: "checkIfAdmin"}, function (data, status) {
+        if (status == "success") {
+            // If user not admin
+            if (!data.status) {
+                location.replace("../admin-login.html");
+            }
+        }
+    });
+
     // Charge Materialize components
     $('.modal').modal();
     $('textarea#description').characterCounter();
@@ -90,6 +100,22 @@ $(document).ready(function () {
         users.forEach(user => {
             // Initialize select advertisement values
             $('#user_id').append(`<option value="` + user.id +`">` + user.name +`</option>`);
+
+            // Initialize table values
+            $('#user_table tbody').append(`
+                <tr>
+                    <td>` + user.id + `</td>
+                    <td>` + user.name + `</td>
+                    <td>` + user.email + `</td>
+                    <td>` + user.phone + `</td>
+                    <td>` + user.profile + `</td>
+                    <td>
+                        <a href="#user_modal" userID="` + user.id + `" class="modal-trigger user-view-trigger btn red">View</a>
+                        <a href="#user_modal" userID="` + user.id + `" class="modal-trigger user-update-trigger btn red">Update</a>
+                        <a href="#" userID="` + user.id + `" class="btn red user-delete-trigger">Delete</a>
+                    </td>
+                </tr>
+            `);
         });
 
         /** -------------------- ADVERTISEMENTS -------------------- **/
@@ -398,7 +424,7 @@ $(document).ready(function () {
         $('.company-delete-trigger').click(function(e) {
             e.preventDefault();
             var companyID = $(this).attr('companyID');
-            if(confirm("Are you sure you want to delete advertisement n°" + companyID + "?")) {
+            if(confirm("Are you sure you want to delete company n°" + companyID + "?")) {
                 // Ajax DELETE to DELETE company
                 $.ajax({
                     type: "DELETE",
@@ -487,6 +513,380 @@ $(document).ready(function () {
             $('textarea').prop("readOnly", true);
             $('input').prop("disabled", true);
         });
+
+        $('.job-update-trigger').click(function(e) {
+            e.preventDefault();
+            var jobID = $(this).attr('jobID');
+
+            // Enable submit btn
+            $('#job_submit').show();
+
+            // (Re)enable for update
+            $('textarea').prop("readOnly", false);
+            $('input').prop("disabled", false);
+            $('#job_id').prop("readOnly", true);
+
+            // Set values with user data
+            $('#job_id').val(jobID);
+            $('#user_id').val(jobs.find(job => job.id == jobID).user_id);
+            $('#advertisement_id').val(jobs.find(job => job.id == jobID).advertisement_id);
+            $('#job_name').val(jobs.find(job => job.id == jobID).name);
+            $('#job_email').val(jobs.find(job => job.id == jobID).email);
+            $('#job_phone').val(jobs.find(job => job.id == jobID).phone);
+            $('#cv').val(jobs.find(job => job.id == jobID).cv);
+            $('#message').val(jobs.find(job => job.id == jobID).message);
+            M.textareaAutoResize($('#message'));
+
+            $('.job-label').attr("class", "job-label active");
+
+            // Materialize select
+            $('select').formSelect();
+
+            $('.job-submit-btn').click(function(e) {
+                e.preventDefault();
+
+                // Retrieve input values
+                var user_id = $('#user_id').val();
+                var advertisement_id = $('#advertisement_id').val();
+                var job_name = $('#job_name').val();
+                var job_email = $('#job_email').val();
+                var job_phone = $('#job_phone').val();
+                var cv = $('#cv').val();
+                var message = $('#message').val();
+
+                var file_cv = $('#file_cv').prop('files')[0];
+                // If there is a file to upload
+                if (file_cv != undefined) {
+                    // Retrieve input values in a formData
+                    var form_data = new FormData();
+                    form_data.append("user_id", user_id);
+                    form_data.append("advertisement_id", advertisement_id);
+                    form_data.append("name", job_name);
+                    form_data.append("email", job_email);
+                    form_data.append("phone", job_phone);
+                    form_data.append("cv", cv);
+                    form_data.append("file_cv", file_cv);
+                    form_data.append("message", message);
+                    form_data.append("callType", "updateJobUpload");
+
+                    $.ajax({
+                        url: '../api/job_applications.php?id=' + jobID, // point to server-side PHP script 
+                        dataType: 'json',  // what to expect back from the PHP script, if anything
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        data: form_data,
+                        type: 'POST',
+                        success: function (data) {
+                            $('#job_modal').modal("close");
+                            location.reload();
+                            alert(data.status_message);
+                        },
+                        error: function (data, status, xhr) {
+                            // Debug if error
+                            console.log(data);
+                            console.log(status);
+                            console.log(xhr);
+                        }
+                    });
+                } else {
+                    // Ajax PUT to filter and insert input into database
+                    $.ajax({
+                        type: "PUT",
+                        url: "../api/job_applications.php?id=" + jobID,
+                        data: {
+                            "user_id": user_id,
+                            "advertisement_id": advertisement_id,
+                            "name": job_name,
+                            "email": job_email,
+                            "phone": job_phone,
+                            "cv" : cv,
+                            "message": message
+                        },
+                        success: function (data) {
+                            $('#job_modal').modal("close");
+                            location.reload();
+                            alert(data.status_message);
+                        },
+                        error: function (data, status, xhr) {
+                            // Debug if error
+                            console.log(data);
+                            console.log(status);
+                            console.log(xhr);
+                        }
+                    });
+                }
+            });
+        });
+
+        $('.job-delete-trigger').click(function(e) {
+            e.preventDefault();
+            var jobID = $(this).attr('jobID');
+            if(confirm("Are you sure you want to delete job application n°" + jobID + "?")) {
+                // Ajax DELETE to DELETE company
+                $.ajax({
+                    type: "DELETE",
+                    url: "../api/job_applications.php?id=" + jobID,
+                    success: function (data) {
+                        $('#job_modal').modal("close");
+                        location.reload();
+                        alert(data.status_message);
+                    },
+                    error: function (data, status, xhr) {
+                        // Debug if error
+                        console.log(data);
+                        console.log(status);
+                        console.log(xhr);
+                    }
+                });
+            }
+        });
+
+        $('#job-create-trigger').click(function(e) {
+            e.preventDefault();
+
+            // Enable submit btn
+            $('#job_submit').show();
+
+            // (Re)enable for update
+            $('textarea').prop("readOnly", false);
+            $('input').prop("disabled", false);
+            $('#job_id').prop("readOnly", true);
+
+            // Materialize select
+            $('select').formSelect();
+
+            $('.job-submit-btn').click(function(e) {
+                e.preventDefault();
+
+                // Retrieve input values in a formData
+                var form_data = new FormData($('#job_form')[0]);
+
+                // Ajax POST to filter and insert input into database
+                $.ajax({
+                    type: "POST",
+                    url: "../api/job_applications.php",
+                    dataType: 'json',  // what to expect back from the PHP script, if anything
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data: form_data,
+                    success: function (data) {
+                        $('#job_modal').modal("close");
+                        location.reload();
+                        alert(data.status_message);
+                    },
+                    error: function (data, status, xhr) {
+                        // Debug if error
+                        console.log(data);
+                        console.log(status);
+                        console.log(xhr);
+                    }
+                });
+            });
+        });
+
+        /** -------------------- USERS -------------------- **/
+
+        $('.user-view-trigger').click(function(e) {
+            e.preventDefault();
+            var userID = $(this).attr('userID');
+            
+            // Disable submit btn
+            $('#user_submit').hide();
+
+            // Set values with user data
+            $('#usr_id').val(userID);
+            $('#user_name').val(users.find(user => user.id == userID).name);
+            $('#user_email').val(users.find(user => user.id == userID).email);
+            $('#user_phone').val(users.find(user => user.id == userID).phone);
+            $('#password').val(users.find(user => user.id == userID).password);
+            $('#profile').val(users.find(user => user.id == userID).profile);
+            $('#user_cv').val(users.find(user => user.id == userID).cv);
+
+            $('.user-label').attr("class", "user-label active");
+
+            // Materialize select
+            $('select').formSelect();
+
+            // Disable for read
+            $('input').prop("disabled", true);
+        });
+
+        $('.user-update-trigger').click(function(e) {
+            e.preventDefault();
+            var userID = $(this).attr('userID');
+
+            // Enable submit btn
+            $('#user_submit').show();
+
+            // (Re)enable for update
+            $('input').prop("disabled", false);
+            $('#usr_id').prop("readOnly", true);
+
+            // Set values with user data
+            $('#usr_id').val(userID);
+            $('#user_name').val(users.find(user => user.id == userID).name);
+            $('#user_email').val(users.find(user => user.id == userID).email);
+            $('#user_phone').val(users.find(user => user.id == userID).phone);
+            $('#password').val(users.find(user => user.id == userID).password);
+            $('#profile').val(users.find(user => user.id == userID).profile);
+            $('#user_cv').val(users.find(user => user.id == userID).cv);
+
+            $('.user-label').attr("class", "user-label active");
+
+            // Materialize select
+            $('select').formSelect();
+
+            $('.user-submit-btn').click(function(e) {
+                e.preventDefault();
+
+                // Retrieve input values
+                var user_name = $('#user_name').val();
+                var user_email = $('#user_email').val();
+                var user_phone = $('#user_phone').val();
+                var password = $('#password').val();
+                var profile = $('#profile').val();
+                var user_cv = $('#user_cv').val();
+
+                // Check if admin changed password
+                var newPassword;
+                if (password != users.find(user => user.id == userID).password) {
+                    newPassword = true;
+                } else {
+                    newPassword = false;
+                }
+
+                var file_user_cv = $('#file_user_cv').prop('files')[0];
+                // If there is a file to upload
+                if (file_user_cv != undefined) {
+                    // Retrieve input values in a formData
+                    var form_data = new FormData();
+                    form_data.append("name", user_name);
+                    form_data.append("email", user_email);
+                    form_data.append("phone", user_phone);
+                    form_data.append("password", password);
+                    form_data.append("newPassword", newPassword);
+                    form_data.append("profile", profile);
+                    form_data.append("cv", user_cv);
+                    form_data.append("file_cv", file_user_cv);
+                    form_data.append("callType", "updateUserUpload");
+
+                    $.ajax({
+                        url: '../api/users.php?id=' + userID, // point to server-side PHP script 
+                        dataType: 'json',  // what to expect back from the PHP script, if anything
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        data: form_data,
+                        type: 'POST',
+                        success: function (data) {
+                            $('#user_modal').modal("close");
+                            location.reload();
+                            alert(data.status_message);
+                        },
+                        error: function (data, status, xhr) {
+                            // Debug if error
+                            console.log(data);
+                            console.log(status);
+                            console.log(xhr);
+                        }
+                    });
+                } else {
+                    // Ajax PUT to filter and insert input into database
+                    $.ajax({
+                        type: "PUT",
+                        url: "../api/users.php?id=" + userID,
+                        data: {
+                            "name": user_name,
+                            "email": user_email,
+                            "phone": user_phone,
+                            "password": password,
+                            "newPassword": newPassword,
+                            "profile": profile,
+                            "cv" : user_cv,
+                        },
+                        success: function (data) {
+                            $('#user_modal').modal("close");
+                            location.reload();
+                            alert(data.status_message);
+                        },
+                        error: function (data, status, xhr) {
+                            // Debug if error
+                            console.log(data);
+                            console.log(status);
+                            console.log(xhr);
+                        }
+                    });
+                }
+            });
+        });
+
+        $('.user-delete-trigger').click(function(e) {
+            e.preventDefault();
+            var userID = $(this).attr('userID');
+            if(confirm("Are you sure you want to delete user n°" + userID + "?")) {
+                // Ajax DELETE to DELETE company
+                $.ajax({
+                    type: "DELETE",
+                    url: "../api/users.php?id=" + userID,
+                    success: function (data) {
+                        $('#user_modal').modal("close");
+                        location.reload();
+                        alert(data.status_message);
+                    },
+                    error: function (data, status, xhr) {
+                        // Debug if error
+                        console.log(data);
+                        console.log(status);
+                        console.log(xhr);
+                    }
+                });
+            }
+        });
+
+        $('#user-create-trigger').click(function(e) {
+            e.preventDefault();
+
+            // Enable submit btn
+            $('#user_submit').show();
+
+            // (Re)enable for update
+            $('input').prop("disabled", false);
+            $('#usr_id').prop("readOnly", true);
+
+            // Materialize select
+            $('select').formSelect();
+
+            $('.user-submit-btn').click(function(e) {
+                e.preventDefault();
+
+                // Retrieve input values in a formData
+                var form_data = new FormData($('#user_form')[0]);
+
+                // Ajax POST to filter and insert input into database
+                $.ajax({
+                    type: "POST",
+                    url: "../api/users.php",
+                    dataType: 'json',  // what to expect back from the PHP script, if anything
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data: form_data,
+                    success: function (data) {
+                        $('#user_modal').modal("close");
+                        location.reload();
+                        alert(data.status_message);
+                    },
+                    error: function (data, status, xhr) {
+                        // Debug if error
+                        console.log(data);
+                        console.log(status);
+                        console.log(xhr);
+                    }
+                });
+            });
+        });
     }
 
     // GET ajax request to fill advertisement table
@@ -516,18 +916,23 @@ $(document).ready(function () {
         }
     });
 
-    // Apply modal parameters
+    // Modal parameters
     $('.modal').modal({
         dismissible: false,
         onCloseEnd: function() {
-            // Remove event listener
+            // Remove event listener to prevent double request
             $('.submit-btn').off("click");
             $('.company-submit-btn').off("click");
+            $('.job-submit-btn').off("click");
+            $('.user-submit-btn').off("click");
 
-            // Set/Reset inputs
+            // Reset forms
             $('#advertisement_form')[0].reset();
             M.textareaAutoResize($('#description'));
             $('#company_form')[0].reset();
+            $('#job_form')[0].reset();
+            M.textareaAutoResize($('#message'));
+            $('#user_form')[0].reset();
         }
     });
 });

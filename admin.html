@@ -9,254 +9,341 @@
     <title>Admin Panel</title>
 </head>
 <body >
-    <div id="profile_header">
-        <header class = "container center white-text">
-            <h1>THE Job Board</h1>
-        </header>
-    </div>
+    <div id="body_profile">
+        <div id="profile_header">
+            <header class = "container center white-text">
+                <h1>THE Job Board</h1>
+            </header>
+            <div id="home_bar" class="row center">
+                <ul class="profile-nav col s12">
+                    <li>
+                        <a href="home.html"><i class="material-icons medium">home</i> Home</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
 
-    <div class="row container">
-        <ul class="tabs grey darken-3">
-            <li class="tab col s3"><a class="active" href="#advertisement_tab">Advertisements</a></li>
-            <li class="tab col s3"><a href="#company_tab">Companies</a></li>
-            <li class="tab col s3"><a href="#job_tab">Job applications</a></li>
-            <li class="tab col s3"><a href="#user_tab">Users</a></li>
-        </ul>
-    </div>
+        <div class="row container">
+            <ul class="tabs grey darken-3">
+                <li class="tab col s3"><a class="active" href="#advertisement_tab">Advertisements</a></li>
+                <li class="tab col s3"><a href="#company_tab">Companies</a></li>
+                <li class="tab col s3"><a href="#job_tab">Job applications</a></li>
+                <li class="tab col s3"><a href="#user_tab">Users</a></li>
+            </ul>
+        </div>
 
+        
+
+        <div id="advertisement_tab" class="row container">
+            <ul class="col s12">
+                <li><a id="advertisement-create-trigger" class="btn modal-trigger red" href="#advertisement_modal">CREATE</a></li>
+            </ul>
+            <div class="card hoverable grey darken-3 white-text admin-panel-card col s12">
+                <table id="advertisement_table" class="highlight centered responsive-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Contract Type</th>
+                            <th>Localisation</th>
+                            <th>Company</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        <div id="company_tab" class="row container">
+            <ul class="col s12">
+                <li><a id="company-create-trigger" class="btn modal-trigger red" href="#company_modal">CREATE</a></li>
+            </ul>
+            <div class="card hoverable grey darken-3 white-text admin-panel-card col s12">
+                <table id="company_table" class="highlight centered responsive-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Logo</th>
+                            <th>Background</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        <div id="job_tab" class="row container">
+            <ul class="col s12">
+                <li><a id="job-create-trigger" class="btn modal-trigger red" href="#job_modal">CREATE</a></li>
+            </ul>
+            <div class="card hoverable grey darken-3 white-text admin-panel-card col s12">
+                <table id="job_table" class="highlight centered responsive-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Applicant</th>
+                            <th>Advertisement</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        <div id="user_tab" class="row container">
+            <ul class="col s12">
+                <li><a id="user-create-trigger" class="btn modal-trigger red" href="#user_modal">CREATE</a></li>
+            </ul>
+            <div class="card hoverable grey darken-3 white-text admin-panel-card col s12">
+                <table id="user_table" class="highlight centered responsive-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Profile</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
     
 
-    <div id="advertisement_tab" class="row container">
-        <ul class="col s12">
-            <li><a id="advertisement-create-trigger" class="btn modal-trigger red" href="#advertisement_modal">CREATE</a></li>
-        </ul>
-        <div class="card hoverable grey darken-3 white-text admin-panel-card col s12">
-            <table id="advertisement_table" class="highlight centered responsive-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Title</th>
-                        <th>Contract Type</th>
-                        <th>Localisation</th>
-                        <th>Company</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-    </div>
-    <div id="company_tab" class="row container">
-        <ul class="col s12">
-            <li><a id="company-create-trigger" class="btn modal-trigger red" href="#company_modal">CREATE</a></li>
-        </ul>
-        <div class="card hoverable grey darken-3 white-text admin-panel-card col s12">
-            <table id="company_table" class="highlight centered responsive-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Logo</th>
-                        <th>Background</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-    </div>
-    <div id="job_tab" class="row container">
-        <ul class="col s12">
-            <li><a id="job-create-trigger" class="btn modal-trigger red" href="#job_modal">CREATE</a></li>
-        </ul>
-        <div class="card hoverable grey darken-3 white-text admin-panel-card col s12">
-            <table id="job_table" class="highlight centered responsive-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Applicant</th>
-                        <th>Advertisement</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-    </div>
-
-    <div id="advertisement_modal" class="modal grey lighten-3 grey-text text-darken-3">
-        <div class="modal-content">
-            <a class="modal-close center grey lighten-3 grey-text text-darken-3">
-                <h4>Advertisement<i class="material-icons right">close</i></h4>
-            </a>
-            <p class = "red-text">* required field</p>
-            <div class="row">
-                <form id="advertisement_form" class="col s12">
-                    <div class="row">
-                        <div class="input-field col s2">
-                            <input id="id" type="number" class="" name="id">
-                            <label for="id" class="advertisement-label">ID</label>
+        <div id="advertisement_modal" class="modal grey lighten-3 grey-text text-darken-3">
+            <div class="modal-content">
+                <a class="modal-close center grey lighten-3 grey-text text-darken-3">
+                    <h4>Advertisement<i class="material-icons right">close</i></h4>
+                </a>
+                <p class = "red-text">* required field</p>
+                <div class="row">
+                    <form id="advertisement_form" class="col s12">
+                        <div class="row">
+                            <div class="input-field col s2">
+                                <input id="id" type="number" class="" name="id">
+                                <label for="id" class="advertisement-label">ID</label>
+                            </div>
+                            <div class="input-field col s10">
+                                <input id="title" type="text" class="" name="title">
+                                <label for="title" class="advertisement-label">Title *</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <textarea id="description" class="materialize-textarea" data-length="1000" name="description"></textarea>
+                                <label for="description" class="advertisement-label">Description *</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <select id="contract_type" type="text" class="" name="contract_type">
+                                    <option value="CDI">CDI</option>
+                                    <option value="CDD">CDD</option>
+                                    <option value="Alternance">Alternance</option>
+                                    <option value="Stage">Stage</option>
+                                </select>
+                                <label for="contract_type">Contract Type *</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <input id="starting_date" type="text" class="datepicker" name="starting_date">
+                                <label for="starting_date" class="advertisement-label">Starting Date</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <input id="min_salary" type="number" class="" name="min_salary">
+                                <label for="min_salary" class="advertisement-label">Min Salary</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <input id="max_salary" type="number" class="" name="max_salary">
+                                <label for="max_salary" class="advertisement-label">Max Salary</label>
+                            </div>
+                            <div class="input-field col s12 xl4">
+                                <input id="localisation" type="text" class="" name="localisation">
+                                <label for="localisation" class="advertisement-label">Localisation *</label>
+                            </div>
+                            <div class="input-field col s12 xl4">
+                                <input id="study_level" type="text" class="" name="study_level">
+                                <label for="study_level" class="advertisement-label">Study Level</label>
+                            </div>
+                            <div class="input-field col s12 xl4">
+                                <input id="experience_years" type="number" class="" name="experience_years">
+                                <label for="experience_years" class="advertisement-label">Experience Years</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <select id="company_id" class="" name="company_id"></select>
+                                <label for="company_id">Company *</label>
+                            </div>
+                            <div class="row center">
+                                <button id="submit" class="btn red white-text waves-effect waves-light submit-btn" type="submit">
+                                    Save
+                                    <i class="material-icons right">send</i>
+                                </button>
+                            </div>
                         </div>
-                        <div class="input-field col s10">
-                            <input id="title" type="text" class="" name="title">
-                            <label for="title" class="advertisement-label">Title *</label>
-                        </div>
-                        <div class="input-field col s12">
-                            <textarea id="description" class="materialize-textarea" data-length="1000" name="description"></textarea>
-                            <label for="description" class="advertisement-label">Description *</label>
-                        </div>
-                        <div class="input-field col s6">
-                            <select id="contract_type" type="text" class="" name="contract_type">
-                                <option value="CDI">CDI</option>
-                                <option value="CDD">CDD</option>
-                                <option value="Alternance">Alternance</option>
-                                <option value="Stage">Stage</option>
-                            </select>
-                            <label for="contract_type">Contract Type *</label>
-                        </div>
-                        <div class="input-field col s6">
-                            <input id="starting_date" type="text" class="datepicker" name="starting_date">
-                            <label for="starting_date" class="advertisement-label">Starting Date</label>
-                        </div>
-                        <div class="input-field col s6">
-                            <input id="min_salary" type="number" class="" name="min_salary">
-                            <label for="min_salary" class="advertisement-label">Min Salary</label>
-                        </div>
-                        <div class="input-field col s6">
-                            <input id="max_salary" type="number" class="" name="max_salary">
-                            <label for="max_salary" class="advertisement-label">Max Salary</label>
-                        </div>
-                        <div class="input-field col s12 xl4">
-                            <input id="localisation" type="text" class="" name="localisation">
-                            <label for="localisation" class="advertisement-label">Localisation *</label>
-                        </div>
-                        <div class="input-field col s12 xl4">
-                            <input id="study_level" type="text" class="" name="study_level">
-                            <label for="study_level" class="advertisement-label">Study Level</label>
-                        </div>
-                        <div class="input-field col s12 xl4">
-                            <input id="experience_years" type="number" class="" name="experience_years">
-                            <label for="experience_years" class="advertisement-label">Experience Years</label>
-                        </div>
-                        <div class="input-field col s12">
-                            <select id="company_id" class="" name="company_id"></select>
-                            <label for="company_id">Company *</label>
-                        </div>
-                        <div class="row center">
-                            <button id="submit" class="btn red white-text waves-effect waves-light submit-btn" type="submit">
-                                Save
-                                <i class="material-icons right">send</i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div id="company_modal" class="modal grey lighten-3 grey-text text-darken-3">
-        <div class="modal-content">
-            <a class="modal-close center grey lighten-3 grey-text text-darken-3">
-                <h4>Company<i class="material-icons right">close</i></h4>
-            </a>
-            <p class = "red-text">* required field</p>
-            <div class="row">
-                <form id="company_form" class="col s12">
-                    <div class="row">
-                        <div class="input-field col s2">
-                            <input id="comp_id" type="number" class="" name="comp_id">
-                            <label for="comp_id" class="company-label">ID</label>
-                        </div>
-                        <div class="input-field col s10">
-                            <input id="comp_name" type="text" class="" name="comp_name">
-                            <label for="comp_name" class="company-label">Name *</label>
-                        </div>
-                        <div class="file-field input-field col s12">
-                            <div class="btn red white-text">
-                                <span>Logo</span>
-                                <input id="file_logo" type="file" name="file_logo">
+        <div id="company_modal" class="modal grey lighten-3 grey-text text-darken-3">
+            <div class="modal-content">
+                <a class="modal-close center grey lighten-3 grey-text text-darken-3">
+                    <h4>Company<i class="material-icons right">close</i></h4>
+                </a>
+                <p class = "red-text">* required field</p>
+                <div class="row">
+                    <form id="company_form" class="col s12">
+                        <div class="row">
+                            <div class="input-field col s2">
+                                <input id="comp_id" type="number" class="" name="comp_id">
+                                <label for="comp_id" class="company-label">ID</label>
                             </div>
-                            <div class="file-path-wrapper">
-                                <input id="logo" class="file-path " type="text" name="logo">
+                            <div class="input-field col s10">
+                                <input id="comp_name" type="text" class="" name="comp_name">
+                                <label for="comp_name" class="company-label">Name *</label>
+                            </div>
+                            <div class="file-field input-field col s12">
+                                <div class="btn red white-text">
+                                    <span>Logo</span>
+                                    <input id="file_logo" type="file" name="file_logo">
+                                </div>
+                                <div class="file-path-wrapper">
+                                    <input id="logo" class="file-path " type="text" name="logo">
+                                </div>
+                            </div>
+                            <div class="file-field input-field col s12">
+                                <div class="btn red white-text">
+                                    <span>Background</span>
+                                    <input id="file_background" type="file" name="file_background">
+                                </div>
+                                <div class="file-path-wrapper">
+                                    <input id="background" class="file-path " type="text" name="background">
+                                </div>
+                            </div>
+                            <div class="row center">
+                                <button id="company_submit" class="btn red white-text waves-effect waves-light company-submit-btn" type="submit">
+                                    Save
+                                    <i class="material-icons right">send</i>
+                                </button>
                             </div>
                         </div>
-                        <div class="file-field input-field col s12">
-                            <div class="btn red white-text">
-                                <span>Background</span>
-                                <input id="file_background" type="file" name="file_background">
-                            </div>
-                            <div class="file-path-wrapper">
-                                <input id="background" class="file-path " type="text" name="background">
-                            </div>
-                        </div>
-                        <div class="row center">
-                            <button id="company_submit" class="btn red white-text waves-effect waves-light company-submit-btn" type="submit">
-                                Save
-                                <i class="material-icons right">send</i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div id="job_modal" class="modal grey lighten-3 grey-text text-darken-3">
-        <div class="modal-content">
-            <a class="modal-close center grey lighten-3 grey-text text-darken-3">
-                <h4>Job Application<i class="material-icons right">close</i></h4>
-            </a>
-            <p class = "red-text">* required field</p>
-            <div class="row">
-                <form id="job_form" class="col s12">
-                    <div class="row">
-                        <div class="input-field col s2">
-                            <input id="job_id" type="number" class="" name="job_id">
-                            <label for="job_id" class="job-label">ID</label>
-                        </div>
-                        <div class="input-field col s5">
-                            <select id="user_id" class="" name="user_id"></select>
-                            <label for="user_id">User</label>
-                        </div>
-                        <div class="input-field col s5">
-                            <select id="advertisement_id" class="" name="advertisement_id"></select>
-                            <label for="advertisement_id">Advertisement *</label>
-                        </div>
-                        <div class="input-field col s12">
-                            <input id="job_name" type="text" class="" name="job_name">
-                            <label for="job_name" class="job-label">Name *</label>
-                        </div>
-                        <div class="input-field col s12">
-                            <input id="job_email" type="email" class="" name="job_email">
-                            <label for="job_email" class="job-label">Email *</label>
-                        </div>
-                        <div class="input-field col s12">
-                            <input id="job_phone" type="text" class="" name="job_phone">
-                            <label for="job_phone" class="job-label">Phone</label>
-                        </div>
-                        <div class="file-field input-field col s12">
-                            <div class="btn red white-text">
-                                <span>CV</span>
-                                <input id="file_cv" type="file" name="file_cv">
+        <div id="job_modal" class="modal grey lighten-3 grey-text text-darken-3">
+            <div class="modal-content">
+                <a class="modal-close center grey lighten-3 grey-text text-darken-3">
+                    <h4>Job Application<i class="material-icons right">close</i></h4>
+                </a>
+                <p class = "red-text">* required field</p>
+                <div class="row">
+                    <form id="job_form" class="col s12">
+                        <div class="row">
+                            <div class="input-field col s2">
+                                <input id="job_id" type="number" class="" name="job_id">
+                                <label for="job_id" class="job-label">ID</label>
                             </div>
-                            <div class="file-path-wrapper">
-                                <input id="cv" class="file-path " type="text" name="cv">
+                            <div class="input-field col s5">
+                                <select id="user_id" class="" name="user_id"></select>
+                                <label for="user_id">User</label>
+                            </div>
+                            <div class="input-field col s5">
+                                <select id="advertisement_id" class="" name="advertisement_id"></select>
+                                <label for="advertisement_id">Advertisement *</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <input id="job_name" type="text" class="" name="job_name">
+                                <label for="job_name" class="job-label">Name *</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <input id="job_email" type="email" class="" name="job_email">
+                                <label for="job_email" class="job-label">Email *</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <input id="job_phone" type="text" class="" name="job_phone">
+                                <label for="job_phone" class="job-label">Phone</label>
+                            </div>
+                            <div class="file-field input-field col s12">
+                                <div class="btn red white-text">
+                                    <span>CV</span>
+                                    <input id="file_cv" type="file" name="file_cv">
+                                </div>
+                                <div class="file-path-wrapper">
+                                    <input id="cv" class="file-path " type="text" name="cv">
+                                </div>
+                            </div>
+                            <div class="input-field col s12">
+                                <textarea id="message" class="materialize-textarea" data-length="1000" name="message"></textarea>
+                                <label for="message" class="job-label">Message *</label>
+                            </div>
+                            <div class="row center">
+                                <button id="job_submit" class="btn red white-text waves-effect waves-light job-submit-btn" type="submit">
+                                    Save
+                                    <i class="material-icons right">send</i>
+                                </button>
                             </div>
                         </div>
-                        <div class="input-field col s12">
-                            <textarea id="message" class="materialize-textarea" data-length="1000" name="message"></textarea>
-                            <label for="message" class="job-label">Message *</label>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="user_modal" class="modal grey lighten-3 grey-text text-darken-3">
+            <div class="modal-content">
+                <a class="modal-close center grey lighten-3 grey-text text-darken-3">
+                    <h4>User<i class="material-icons right">close</i></h4>
+                </a>
+                <p class = "red-text">* required field</p>
+                <div class="row">
+                    <form id="user_form" class="col s12">
+                        <div class="row">
+                            <div class="input-field col s2">
+                                <input id="usr_id" type="number" class="" name="usr_id">
+                                <label for="usr_id" class="user-label">ID</label>
+                            </div>
+                            <div class="input-field col s10">
+                                <input id="user_name" type="text" class="" name="user_name">
+                                <label for="user_name" class="user-label">Name *</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <input id="user_email" type="email" class="" name="user_email">
+                                <label for="user_email" class="user-label">Email *</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <input id="user_phone" type="text" class="" name="user_phone">
+                                <label for="user_phone" class="user-label">Phone</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <input id="password" type="text" class="" name="password">
+                                <label for="password" class="user-label">Password *</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <select id="profile" type="text" class="" name="profile">
+                                    <option value="applicant">Applicant</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                                <label for="profile">Profile *</label>
+                            </div>
+                            <div class="file-field input-field col s12">
+                                <div class="btn red white-text">
+                                    <span>CV</span>
+                                    <input id="file_user_cv" type="file" name="file_user_cv">
+                                </div>
+                                <div class="file-path-wrapper">
+                                    <input id="user_cv" class="file-path " type="text" name="user_cv">
+                                </div>
+                            </div>
+                            <div class="row center">
+                                <button id="user_submit" class="btn red white-text waves-effect waves-light user-submit-btn" type="submit">
+                                    Save
+                                    <i class="material-icons right">send</i>
+                                </button>
+                            </div>
                         </div>
-                        <div class="row center">
-                            <button id="job_submit" class="btn red white-text waves-effect waves-light job-submit-btn" type="submit">
-                                Save
-                                <i class="material-icons right">send</i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

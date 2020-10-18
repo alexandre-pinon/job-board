@@ -88,6 +88,10 @@ a.modal-close h4 i.right {
 .input-field label {
     color: black;
 }
+.input-field label.login-admin-label {
+    color: inherit;
+}
+
 #update_profile_form .row .input-field label,
 #update_profile_form .row .input-field input,
 #reset_password_form .row .input-field label,
@@ -154,6 +158,10 @@ a.modal-close h4 i.right {
 
 .profile-page {
     height: 800px;
+}
+
+.login-admin-page {
+    height: auto;
 }
 
 .admin-panel-card {
