@@ -20,7 +20,6 @@ $(document).ready(function () {
                 "callType": "login"
             },
             success: function (data) {
-                console.log(data);
                 // Display error messages to user
                 $('#login_emailErr').html(data.emailErr);
                 $('#login_passwordErr').html(data.passwordErr);

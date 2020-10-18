@@ -19,7 +19,6 @@ $(document).ready(function () {
     });
 
     function initTables(ads, companies, users, jobs) {
-        console.log(ads, companies, users, jobs);
         // Init company name
         var name = "";
 

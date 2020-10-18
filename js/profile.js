@@ -6,7 +6,7 @@ $(document).ready(function () {
     var user_cv = "";
 
     // Init profile form
-    $.get('http://job-board/api/session.php', function(data, status) {
+    $.get('../api/session.php', function(data, status) {
 
         if (status == "success") {
             // Set user cv
@@ -19,7 +19,6 @@ $(document).ready(function () {
             $('#update_profile_phone').val(data[0].phone);
             $('#update_profile_cv').val(user_cv.slice(user_cv.indexOf("_") + 1, user_cv.length));
             $('.profile-label').attr("class", "profile-label active");
-            console.log(data);
 
             // Set user id & email
             user_id = data[0].id;
@@ -161,7 +160,6 @@ $(document).ready(function () {
 
                     location.reload();
                     alert(data.status_message);
-                    console.log(data);
                 },
                 error: function (data, status, xhr) {
                     // Debug if error
@@ -174,7 +172,7 @@ $(document).ready(function () {
             // Ajax PUT to filter and insert input into database
             $.ajax({
                 type: "PUT",
-                url: "http://job-board/api/users.php?id=" + user_id,
+                url: "../api/users.php?id=" + user_id,
                 data: {
                     "fname": fname,
                     "lname": lname,
@@ -195,7 +193,6 @@ $(document).ready(function () {
 
                     location.reload();
                     alert(data.status_message);
-                    console.log(data);
                 },
                 error: function (data, status, xhr) {
                     // Debug if error
@@ -219,7 +216,7 @@ $(document).ready(function () {
         // Ajax PUT to filter and insert input into database
         $.ajax({
             type: "PUT",
-            url: "http://job-board/api/users.php?id=" + user_id,
+            url: "../api/users.php?id=" + user_id,
             data: {
                 "oldPassword": oldPassword,
                 "newPassword": newPassword,

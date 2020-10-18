@@ -12,7 +12,7 @@ $(document).ready(function () {
         if(loggedIn) {
             if(profile === "admin") {
                 $('#profile_list').append(
-                    "<li><a href='http://job-board/admin.html'>Admin Panel</a></li>"
+                    "<li><a href='../admin.html'>Admin Panel</a></li>"
                 );
             }
             $('#login_bar').hide();
@@ -41,7 +41,6 @@ $(document).ready(function () {
                     $('#phone').val(data[0].phone);
                     $('#cv').val(user_cv.slice(user_cv.indexOf("_") + 1, user_cv.length));
                     $('.apply-label').attr("class", "apply-label active");
-                    console.log(user_cv);
                 } else {
                     alert("Error loading session info.");
                 }
@@ -77,9 +76,9 @@ $(document).ready(function () {
                 <div class="flex-box">
                     <div class="card hoverable grey darken-3 white-text">
                         <div class="card-image">
-                            <img src="http://job-board/ressources/company_backgrounds/` + background + `" class="job-image">
+                            <img src="../ressources/company_backgrounds/` + background + `" class="job-image">
                             <a class="activator btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
-                            <a class="btn-floating halfway-fab company-logo"><img src="http://job-board/ressources/company_logos/` + logo + `"></a>
+                            <a class="btn-floating halfway-fab company-logo"><img src="../ressources/company_logos/` + logo + `"></a>
                         </div>
                         <div class="card-content short-description">
                             <span class="card-title">` + ad.title + `</span>
@@ -93,8 +92,8 @@ $(document).ready(function () {
                                 ` + ad.title + `
                                 <i class="material-icons right">close</i>
                             </span>
-                            <p>
-                                Type of contract : ` + ad.contract_type + `,
+                            <p id ="ad_details` + ad.id + `">
+                                Type of contract : ` + ad.contract_type + `<br>
                                 Localisation : ` + ad.localisation + `
                             </p>
                             <p>` + ad.description + `</p>
@@ -102,6 +101,22 @@ $(document).ready(function () {
                     </div>
                 </div>
             `);
+
+            // Add more details if defined
+            if (ad.starting_date !== "" && ad.starting_date !== null && ad.starting_date !== undefined) {
+                $('#ad_details' + ad.id).append("<br>Starting Date : " + ad.starting_date);
+            }
+            if (ad.min_salary !== "" && ad.min_salary !== null && ad.min_salary !== undefined) {
+                if ((ad.max_salary !== "" && ad.max_salary !== null && ad.max_salary !== undefined)) {
+                    $('#ad_details' + ad.id).append("<br>Salary : " + ad.min_salary + "-" + ad.max_salary + "K");
+                }
+            }
+            if (ad.study_level !== "" && ad.study_level !== null && ad.study_level !== undefined) {
+                $('#ad_details' + ad.id).append("<br>Study level : " + ad.study_level);
+            }
+            if (ad.experience_years !== "" && ad.experience_years !== null && ad.experience_years !== undefined) {
+                $('#ad_details' + ad.id).append("<br>Experience years : " + ad.experience_years + " years");
+            }
         });
         // Truncate card description
         $('.short-description').dotdotdot({
@@ -218,7 +233,6 @@ $(document).ready(function () {
                     data: form_data,
                     type: 'POST',
                     success: function (data) {
-                        console.log(data);
                         // Display error messages to user
                         $('#nameErr').html(data.nameErr);
                         $('#emailErr').html(data.emailErr);
@@ -252,9 +266,9 @@ $(document).ready(function () {
     $('.sidenav').sidenav();
 
     // GET ajax request display job cards
-    $.get('http://job-board/api/companies.php', function (companies_data, companies_status) {
+    $.get('../api/companies.php', function (companies_data, companies_status) {
         if (companies_status === "success") {
-            $.get('http://job-board/api/advertisements.php', function (ads_data, ads_status) {
+            $.get('../api/advertisements.php', function (ads_data, ads_status) {
                 if (ads_status === "success") {
                     printJobs(ads_data, companies_data);
                 } else {
@@ -267,7 +281,7 @@ $(document).ready(function () {
     });
 
     // Switch between profile bars if user connected or not
-    $.post('http://job-board/api/session.php', {callType: "checkIfLoggedIn"}, function (data, status) {
+    $.post('../api/session.php', {callType: "checkIfLoggedIn"}, function (data, status) {
         if (status === "success") {
             switchBar(data.loggedIn, data.profile);
             loggedIn = data.loggedIn;
@@ -305,7 +319,6 @@ $(document).ready(function () {
         form_data.append("cv", cv);
         form_data.append("file_cv", file_cv);
         form_data.append("callType", "register");
-        console.log($('#register_form')[0]);
 
         $.ajax({
             url: '../api/users.php', // point to server-side PHP script 
@@ -316,7 +329,6 @@ $(document).ready(function () {
             data: form_data,
             type: 'POST',
             success: function (data) {
-                console.log(data);
                 // Display error messages to user
                 $('#register_nameErr').html(data.nameErr);
                 $('#register_passwordErr').html(data.passwordErr);
@@ -356,7 +368,7 @@ $(document).ready(function () {
         // Ajax POST to read users and check if corresponds to input
         $.ajax({
             type: "POST",
-            url: "http://job-board/api/users.php",
+            url: "../api/users.php",
             data: {
                 "email": email,
                 "password": password,
@@ -390,7 +402,7 @@ $(document).ready(function () {
     $('.logout-btn').click(function (e) {
         e.preventDefault();
 
-        $.post('http://job-board/api/session.php', {callType: "logout"}, function (data, status) {
+        $.post('../api/session.php', {callType: "logout"}, function (data, status) {
             if (status === "success") {
                 switchBar(data.loggedIn, data.profile);
                 loggedIn = data.loggedIn;
