@@ -25,9 +25,10 @@
             <div class="row container">
                 <div class="col s12">
                     <ul class="tabs grey darken-3">
-                        <li class="tab col s4"><a class="active" href="#update_profile_tab">Profile</a></li>
-                        <li class="tab col s4"><a href="#reset_password_tab">Reset Password</a></li>
-                        <li id="view_cv_trigger" class="tab col s4"><a href="#view_cv_tab">View CV</a></li>
+                        <li class="tab col s3"><a class="active" href="#update_profile_tab">Profile</a></li>
+                        <li class="tab col s3"><a href="#reset_password_tab">Reset Password</a></li>
+                        <li id="view_cv_trigger" class="tab col s3"><a href="#view_cv_tab">View CV</a></li>
+                        <li id="view_job_trigger" class="tab col s3"><a href="#view_job_tab">View Job Applications</a></li>
                     </ul>
                 </div>
             </div>
@@ -130,6 +131,83 @@
                             </a>
                         </div>
                     </div>
+                    <div id="view_job_tab">
+                        <h2 id="profile_title" class="center">View Job Applications</h2>
+                        <div class="row container">
+                            <table id="advertisement_table" class="highlight centered responsive-table">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Contract Type</th>
+                                        <th>Starting Date</th>
+                                        <th>Localisation</th>
+                                        <th>Company</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="advertisement_modal" class="modal grey lighten-3 grey-text text-darken-3">
+            <div class="modal-content">
+                <a class="modal-close center grey lighten-3 grey-text text-darken-3">
+                    <h4>Advertisement<i class="material-icons right">close</i></h4>
+                </a>
+                <div class="row">
+                    <form id="advertisement_form" class="col s12">
+                        <div class="row">
+                            <div class="input-field col s10">
+                                <input id="title" type="text" class="" name="title">
+                                <label for="title" class="advertisement-label">Title</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <textarea id="description" class="materialize-textarea" data-length="1000" name="description"></textarea>
+                                <label for="description" class="advertisement-label">Description</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <select id="contract_type" type="text" class="" name="contract_type">
+                                    <option value="CDI">CDI</option>
+                                    <option value="CDD">CDD</option>
+                                    <option value="Alternance">Alternance</option>
+                                    <option value="Stage">Stage</option>
+                                </select>
+                                <label for="contract_type">Contract Type *</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <input id="starting_date" type="text" class="datepicker" name="starting_date">
+                                <label for="starting_date" class="advertisement-label">Starting Date</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <input id="min_salary" type="number" class="" name="min_salary">
+                                <label for="min_salary" class="advertisement-label">Min Salary</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <input id="max_salary" type="number" class="" name="max_salary">
+                                <label for="max_salary" class="advertisement-label">Max Salary</label>
+                            </div>
+                            <div class="input-field col s12 xl4">
+                                <input id="localisation" type="text" class="" name="localisation">
+                                <label for="localisation" class="advertisement-label">Localisation</label>
+                            </div>
+                            <div class="input-field col s12 xl4">
+                                <input id="study_level" type="text" class="" name="study_level">
+                                <label for="study_level" class="advertisement-label">Study Level</label>
+                            </div>
+                            <div class="input-field col s12 xl4">
+                                <input id="experience_years" type="number" class="" name="experience_years">
+                                <label for="experience_years" class="advertisement-label">Experience Years</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <select id="company_id" class="" name="company_id"></select>
+                                <label for="company_id">Company</label>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
